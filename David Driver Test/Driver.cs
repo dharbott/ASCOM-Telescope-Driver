@@ -176,7 +176,7 @@ namespace ASCOM.Sepikascope001
         }
 
 
-        // explicit types conversion library
+        //// explicit types conversion library
         // and array copying
         private String ParamFormatter(double param1, double param2)
         {
@@ -350,11 +350,12 @@ namespace ASCOM.Sepikascope001
 
         }
 
+     
         
         // this wont work, so we'll need an explicit function
         // possibly unsafe, to convert between byte arrays to char arrays
         // to strings
-        public String CommandString(byte[] byteArray, bool raw)
+        public String MyCommandString(byte[] byteArray, bool raw)
         {
             byte[] byteArray2 = new byte[byteArray.Length+1];
             if (raw)
@@ -363,17 +364,18 @@ namespace ASCOM.Sepikascope001
             }
             else
             {
-                byteArray.CopyTo(byteArray2, 0);
+                //byteArray.CopyTo(byteArray2, 0);
                 objSerial.TransmitBinary(byteArray);
                 objSerial.Transmit(";");
             }
             
 
-            //byte[] terminatorBytes = new byte[] {};
+            byte[] terminatorBytes = new byte[] {(byte)';'};
 
-            //return objSerial.ReceiveTerminatedBinary({';'});
-            return "work in progress: " + Char.ConvertFromUtf32(0x003B);
+            return BitConverter.ToString(objSerial.ReceiveTerminatedBinary(terminatorBytes));
+            //return "work in progress: mycommandstring"; //Char.ConvertFromUtf32(0x003B);
         }
+        
 
         public void Dispose()
         {
@@ -478,8 +480,11 @@ namespace ASCOM.Sepikascope001
                 tl.LogMessage("Name Get", name);
 
                 // TESTER
+                byte[] byteArray = new byte[4] {1,1,1,1};
+
+                return MyCommandString(byteArray, false);
                 //return CommandFormatter(DCommandList.DAzimuth);
-                return ParamFormatter(0.01);
+                //return ParamFormatter(0.01);
                 //return name;
             }
         }
@@ -561,8 +566,10 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                tl.LogMessage("Azimuth Get", "Not implemented");
-                throw new ASCOM.PropertyNotImplementedException("Azimuth", false);
+                //tl.LogMessage("Azimuth Get", "Not implemented");
+                //throw new ASCOM.PropertyNotImplementedException("Azimuth", false);
+                tl.LogMessage("Azimuth Get", "Implemented");
+                return 0.0;
             }
         }
 

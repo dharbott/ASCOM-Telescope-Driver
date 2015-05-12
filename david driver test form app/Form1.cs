@@ -160,6 +160,8 @@ namespace ASCOM.Sepikascope001
             testchar = BitConverter.ToChar(byteArray, 0);
             testchar2 = BitConverter.ToChar(byteArray, 2);
 
+            //String testString = new String();
+
             return "ParamFormatter1 : TAU = " + testchar2;
             //String temp =
             //byte[] byteArray = Convert.ToByte(singleFloat)///new byte[4] {1,1,1,1};
