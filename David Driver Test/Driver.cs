@@ -122,7 +122,7 @@ namespace ASCOM.Sepikascope001
             //DSupportedActions
         };
 
-        // tested and it works
+                // tested and it works
         // next step is to redo function to return byte[],
         // formatting op codes and parameters into command words
         // to transmit over objSerial.TransmitBinary(byte[])
@@ -160,30 +160,28 @@ namespace ASCOM.Sepikascope001
         }
 
 
-        // it is inevitable, we're going to lose precision
-        // cuz arduino can only process single floating point
-        // so we use explicit types conversion library
-        private String ParamFormatter (double param1)
+        // explicit function that converts a double floating point
+        // angular degree into arcminutes, and then rounded into
+        // a 16-bit integer, a 'short' in c#, and then converted
+        // into a string of 2 bytes, because 1 byte is 8 bits
+        private byte[] doubleToShortBytes (double param1)
         {
-            float singleFloat = Convert.ToSingle(param1);
-            byte[] byteArray = BitConverter.GetBytes(singleFloat);
-            return BitConverter.ToString(byteArray).Replace("-", "");
-            //return "ParamFormatter1";
-            //String temp =
-            //byte[] byteArray = Convert.ToByte(singleFloat)///new byte[4] {1,1,1,1};
-            
-            //return byteArray[0].ToString(); //returns "System.Byte[]"  ... why?
+            short shortParam = Convert.ToInt16(param1*60);
+            byte[] byteArray = BitConverter.GetBytes( (shortParam);
+            return byteArray;
         }
 
-
-        //// explicit types conversion library
-        // and array copying
-        private String ParamFormatter(double param1, double param2)
+        // TEST IT LATER
+        public byte[] doubleToShortBytes (double param1, double param2)
         {
-            float singleFloat1 = Convert.ToSingle(param1);
-            float singleFloat2 = Convert.ToSingle(param2);
-            byte[] byteArray1 = BitConverter.GetBytes(singleFloat1);
-            byte[] byteArray2 = BitConverter.GetBytes(singleFloat2);
+
+            //float singleFloat1 = Convert.ToSingle(param1);
+            //float singleFloat2 = Convert.ToSingle(param2);
+            //byte[] byteArray1 = BitConverter.GetBytes(singleFloat1);
+            //byte[] byteArray2 = BitConverter.GetBytes(singleFloat2);
+
+            byte[] byteArray1 = doubleToShortBytes(param1);
+            byte[] byteArray2 = doubleToShortBytes(param2);
             
             byte[] output = new byte[byteArray1.Length + byteArray2.Length];
 
@@ -198,11 +196,12 @@ namespace ASCOM.Sepikascope001
             }
             **/
 
+            // the reality is that byteArray1 is only 2 bytes
+            // and output only becomes 4 bytes....
             byteArray1.CopyTo(output, 0);
             byteArray2.CopyTo(output, byteArray1.Length);
 
-            //return "ParamFormatter2";
-            return output.ToString();
+            return output;
         }
 
 
@@ -370,8 +369,9 @@ namespace ASCOM.Sepikascope001
             }
             
 
-            byte[] terminatorBytes = new byte[] {(byte)';'};
+            byte[] terminatorBytes = new byte[] {Convert.ToByte(';')};
 
+            //return "working";
             return BitConverter.ToString(objSerial.ReceiveTerminatedBinary(terminatorBytes));
             //return "work in progress: mycommandstring"; //Char.ConvertFromUtf32(0x003B);
         }
@@ -989,8 +989,19 @@ namespace ASCOM.Sepikascope001
 
         public void SlewToAltAz(double Azimuth, double Altitude)
         {
-            tl.LogMessage("SlewToAltAz", "Not implemented");
-            throw new ASCOM.MethodNotImplementedException("SlewToAltAz");
+            //tl.LogMessage("SlewToAltAz", "Not implemented");
+            //throw new ASCOM.MethodNotImplementedException("SlewToAltAz");
+
+            tl.LogMessage("SlewToAltAz", "Implemented");
+
+            byte[] paramBytes = doubleToShortBytes(Azimuth, Altitude);
+            byte[] output = new byte[paramBytes.Length + 2];
+
+            output[0] = Convert.ToByte('1');
+            paramBytes.CopyTo(output, 1);
+            output[5] = Convert.ToByte(';');
+
+            MyCommandString(output, true);
         }
 
         public void SlewToAltAzAsync(double Azimuth, double Altitude)

@@ -50,6 +50,8 @@ namespace ASCOM.Sepikascope001
             buttonConnect.Text = IsConnected ? "Disconnect" : "Connect";
             button1.Enabled = IsConnected;
             button2.Enabled = IsConnected;
+            button4.Enabled = IsConnected;
+            button5.Enabled = IsConnected;
         }
 
         private bool IsConnected
@@ -204,6 +206,27 @@ namespace ASCOM.Sepikascope001
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            double param1 = Convert.ToDouble(textBox3.Text);
+            if ((0.0 <= param1) && (param1 < 360.0))
+            {
+                driver.SlewToAltAz(param1, 3.14);
+            }
+            //textBox4.Text = (Convert.ToInt16(param1)).ToString();
+            
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            double param1 = Convert.ToDouble(textBox3.Text);
+            if ((0.0 <= param1) && (param1 < 360.0))
+            {
+                driver.SlewToAltAz(param1, 3.14);
+            }
+            //driver.SlewToAltAz(param1, param2);
         }
     }
 }
