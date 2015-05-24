@@ -35,12 +35,19 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.SlewAzButton = new System.Windows.Forms.Button();
+            this.SlewAltButton = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CheckAzm = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.CheckAlt = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonChoose
@@ -77,7 +84,7 @@
             // button1
             // 
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(260, 115);
+            this.button1.Location = new System.Drawing.Point(248, 19);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(121, 20);
             this.button1.TabIndex = 3;
@@ -87,104 +94,137 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 144);
+            this.textBox1.Location = new System.Drawing.Point(3, 45);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(369, 89);
+            this.textBox1.Size = new System.Drawing.Size(369, 86);
             this.textBox1.TabIndex = 4;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(12, 115);
+            this.textBox2.Location = new System.Drawing.Point(3, 19);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(242, 20);
+            this.textBox2.Size = new System.Drawing.Size(239, 20);
             this.textBox2.TabIndex = 5;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(12, 344);
+            this.textBox3.Location = new System.Drawing.Point(188, 29);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(242, 20);
+            this.textBox3.Size = new System.Drawing.Size(77, 20);
             this.textBox3.TabIndex = 7;
             // 
-            // button2
+            // SlewAzButton
             // 
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(260, 344);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(121, 20);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Move Azimuth, Rate;";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.SlewAzButton.Enabled = false;
+            this.SlewAzButton.Location = new System.Drawing.Point(271, 28);
+            this.SlewAzButton.Name = "SlewAzButton";
+            this.SlewAzButton.Size = new System.Drawing.Size(101, 20);
+            this.SlewAzButton.TabIndex = 10;
+            this.SlewAzButton.Text = "SlewAz (degrees)";
+            this.SlewAzButton.UseVisualStyleBackColor = true;
+            this.SlewAzButton.Click += new System.EventHandler(this.SlewAzButton_Click);
             // 
-            // button3
+            // SlewAltButton
             // 
-            this.button3.Location = new System.Drawing.Point(260, 370);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(121, 20);
-            this.button3.TabIndex = 8;
-            this.button3.Text = "response;";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.SlewAltButton.Enabled = false;
+            this.SlewAltButton.Location = new System.Drawing.Point(271, 32);
+            this.SlewAltButton.Name = "SlewAltButton";
+            this.SlewAltButton.Size = new System.Drawing.Size(101, 20);
+            this.SlewAltButton.TabIndex = 14;
+            this.SlewAltButton.Text = "SlewAlt (degrees)";
+            this.SlewAltButton.UseVisualStyleBackColor = true;
+            this.SlewAltButton.Click += new System.EventHandler(this.SlewAltButton_Click);
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(12, 370);
-            this.textBox4.Multiline = true;
+            this.textBox4.Location = new System.Drawing.Point(188, 33);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(242, 85);
-            this.textBox4.TabIndex = 9;
-            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
+            this.textBox4.Size = new System.Drawing.Size(77, 20);
+            this.textBox4.TabIndex = 13;
             // 
-            // button4
+            // textBox5
             // 
-            this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(71, 279);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(121, 20);
-            this.button4.TabIndex = 10;
-            this.button4.Text = "Clockwise";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.textBox5.Location = new System.Drawing.Point(3, 28);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(77, 20);
+            this.textBox5.TabIndex = 7;
             // 
-            // button5
+            // textBox6
             // 
-            this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(198, 279);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(121, 20);
-            this.button5.TabIndex = 11;
-            this.button5.Text = "Counter Clockwise";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.textBox6.Location = new System.Drawing.Point(3, 32);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(77, 20);
+            this.textBox6.TabIndex = 13;
             // 
-            // label1
+            // groupBox1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(136, 263);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(118, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Azimuth Manual Control";
+            this.groupBox1.Controls.Add(this.CheckAzm);
+            this.groupBox1.Controls.Add(this.textBox5);
+            this.groupBox1.Controls.Add(this.textBox3);
+            this.groupBox1.Controls.Add(this.SlewAzButton);
+            this.groupBox1.Location = new System.Drawing.Point(12, 227);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(385, 66);
+            this.groupBox1.TabIndex = 16;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Azimuth Manual Control";
+            // 
+            // CheckAzm
+            // 
+            this.CheckAzm.Enabled = false;
+            this.CheckAzm.Location = new System.Drawing.Point(86, 28);
+            this.CheckAzm.Name = "CheckAzm";
+            this.CheckAzm.Size = new System.Drawing.Size(96, 20);
+            this.CheckAzm.TabIndex = 11;
+            this.CheckAzm.Text = "Poll Azm \"deg\"";
+            this.CheckAzm.UseVisualStyleBackColor = true;
+            this.CheckAzm.Click += new System.EventHandler(this.CheckAzm_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.CheckAlt);
+            this.groupBox2.Controls.Add(this.textBox4);
+            this.groupBox2.Controls.Add(this.textBox6);
+            this.groupBox2.Controls.Add(this.SlewAltButton);
+            this.groupBox2.Location = new System.Drawing.Point(12, 299);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(385, 66);
+            this.groupBox2.TabIndex = 17;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Altitude Manual Control";
+            // 
+            // CheckAlt
+            // 
+            this.CheckAlt.Enabled = false;
+            this.CheckAlt.Location = new System.Drawing.Point(86, 32);
+            this.CheckAlt.Name = "CheckAlt";
+            this.CheckAlt.Size = new System.Drawing.Size(96, 20);
+            this.CheckAlt.TabIndex = 12;
+            this.CheckAlt.Text = "Poll Alt \"deg\"";
+            this.CheckAlt.UseVisualStyleBackColor = true;
+            this.CheckAlt.Click += new System.EventHandler(this.CheckAlt_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.textBox2);
+            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.textBox1);
+            this.groupBox3.Location = new System.Drawing.Point(12, 84);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(385, 137);
+            this.groupBox3.TabIndex = 18;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Text Commands";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(409, 467);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.labelDriverId);
             this.Controls.Add(this.buttonConnect);
             this.Controls.Add(this.buttonChoose);
@@ -192,8 +232,13 @@
             this.Text = "TEMPLATEDEVICETYPE Test";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -206,12 +251,16 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button SlewAzButton;
+        private System.Windows.Forms.Button SlewAltButton;
         private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button CheckAzm;
+        private System.Windows.Forms.Button CheckAlt;
     }
 }
 

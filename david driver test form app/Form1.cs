@@ -49,9 +49,10 @@ namespace ASCOM.Sepikascope001
             buttonChoose.Enabled = !IsConnected;
             buttonConnect.Text = IsConnected ? "Disconnect" : "Connect";
             button1.Enabled = IsConnected;
-            button2.Enabled = IsConnected;
-            button4.Enabled = IsConnected;
-            button5.Enabled = IsConnected;
+            SlewAltButton.Enabled = IsConnected;
+            SlewAzButton.Enabled = IsConnected;
+            CheckAzm.Enabled = IsConnected;
+            CheckAlt.Enabled = IsConnected;
         }
 
         private bool IsConnected
@@ -79,16 +80,7 @@ namespace ASCOM.Sepikascope001
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        /**
         private void button2_Click(object sender, EventArgs e)
         {
             byte[] testBytes = new byte[] {100, 100, 100, 100};
@@ -102,23 +94,25 @@ namespace ASCOM.Sepikascope001
 
             //textBox3.Text = driver.CommandString(testBytes, true);
         }
-        
+        **/
+        /*
         private void button3_Click(object sender, EventArgs e)
         {
             //byte[] testing = StringToByteArray("ABCD");
             //byte[] testing = StringToByteArray("EFGH");
-            /*
-            foreach (byte element in testing)
-            {
+            
+            //foreach (byte element in testing)
+            //{
                 //must transform each byte into char
-                textBox4.Text = textBox4.Text + " " + (char)element;
-            }
-            */
+                //textBox4.Text = textBox4.Text + " " + (char)element;
+            //}
+            
 
             //textBox4.Text = textBox4.Text + " : " + BitConverter.ToString(testing).Replace("-", "");
             textBox4.Text = ParamFormatter(0.002);
         }
-
+    **/  
+        /**
         private String ParamFormatter(double param1)
         {
             float singleFloat = Convert.ToSingle(param1);
@@ -170,6 +164,7 @@ namespace ASCOM.Sepikascope001
 
             //return byteArray[0].ToString(); //returns "System.Byte[]"  ... why?           
         }
+        **/
 
         //this function takes a literal string of chars
         //and converts it to hexadecimal which is comprised of 2 c
@@ -193,7 +188,8 @@ namespace ASCOM.Sepikascope001
          * // Output: X X X X
          * 
          * */
-
+        
+        /**
         public static byte[] StringToByteArray(String hex)
         {
             int NumberChars = hex.Length;
@@ -202,13 +198,9 @@ namespace ASCOM.Sepikascope001
                 bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
             return bytes;
         }
+        **/
 
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button4_Click(object sender, EventArgs e)
+        private void SlewAzButton_Click(object sender, EventArgs e)
         {
             double param1 = Convert.ToDouble(textBox3.Text);
             if ((0.0 <= param1) && (param1 < 360.0))
@@ -219,14 +211,25 @@ namespace ASCOM.Sepikascope001
             
         }
 
-        private void button5_Click(object sender, EventArgs e)
+
+        private void SlewAltButton_Click(object sender, EventArgs e)
         {
-            double param1 = Convert.ToDouble(textBox3.Text);
-            if ((0.0 <= param1) && (param1 < 360.0))
+            double param2 = Convert.ToDouble(textBox3.Text);
+            if ((0.0 <= param2) && (param2 < 360.0))
             {
-                driver.SlewToAltAz(param1, 3.14);
+                driver.SlewToAltAz(3.14, param2);
             }
             //driver.SlewToAltAz(param1, param2);
+        }
+
+        private void CheckAzm_Click(object sender, EventArgs e)
+        {
+            textBox5.Text = driver.Azimuth.ToString();
+        }
+
+        private void CheckAlt_Click(object sender, EventArgs e)
+        {
+            textBox6.Text = driver.Altitude.ToString();
         }
     }
 }

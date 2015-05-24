@@ -13,13 +13,13 @@
 //				sanctus est Lorem ipsum dolor sit amet.
 //
 // Implements:	ASCOM Telescope interface version: <To be completed by driver developer>
-// Author:		(XXX) Your N. Here <your@email.here>
+// Author:		David Harbottle <dharbott@gmail.com>
 //
 // Edit Log:
 //
 // Date			Who	Vers	Description
 // -----------	---	-----	-------------------------------------------------------
-// dd-mmm-yyyy	XXX	6.0.0	Initial edit, created from ASCOM driver template
+// 14-May-2015	DH	1.0.0	Working SlewToAltAz Function
 // --------------------------------------------------------------------------------
 //
 
@@ -167,7 +167,7 @@ namespace ASCOM.Sepikascope001
         private byte[] doubleToShortBytes (double param1)
         {
             short shortParam = Convert.ToInt16(param1*60);
-            byte[] byteArray = BitConverter.GetBytes( (shortParam);
+            byte[] byteArray = BitConverter.GetBytes(shortParam);
             return byteArray;
         }
 
@@ -228,20 +228,18 @@ namespace ASCOM.Sepikascope001
 
             tl.LogMessage("Telescope", "Completed initialisation");
 
-
-            /*
             actionsArrayList = new ArrayList();
 
-            actionsArrayList.Add("CanMoveAxis");
-            actionsArrayList.Add("MoveAxis");
-            actionsArrayList.Add("SlewToAltAz");
-            actionsArrayList.Add("Slewing");
-            actionsArrayList.Add("AbortSlew");
-            actionsArrayList.Add("Altitude");
-            actionsArrayList.Add("Azimuth");
-            actionsArrayList.Add("SyncToAltAz");
+            actionsArrayList.Add("CanMoveAxis"); // returns true for azimuth
+            //actionsArrayList.Add("MoveAxis");
+            actionsArrayList.Add("SlewToAltAz"); // slews azimuth, not altitude yet
+            actionsArrayList.Add("Slewing"); // returns false until
+                                             // I implement threads
+            //actionsArrayList.Add("AbortSlew");
+            actionsArrayList.Add("Altitude"); // not implemented yet
+            actionsArrayList.Add("Azimuth");  // returns arcminutes
+            //actionsArrayList.Add("SyncToAltAz");
             actionsArrayList.Add("SupportedActions");
-             * */
         }
 
 
@@ -357,6 +355,8 @@ namespace ASCOM.Sepikascope001
         public String MyCommandString(byte[] byteArray, bool raw)
         {
             byte[] byteArray2 = new byte[byteArray.Length+1];
+
+            // 'raw' as in ready to transmit, includes ';'
             if (raw)
             {
                 objSerial.TransmitBinary (byteArray);
@@ -569,6 +569,8 @@ namespace ASCOM.Sepikascope001
                 //tl.LogMessage("Azimuth Get", "Not implemented");
                 //throw new ASCOM.PropertyNotImplementedException("Azimuth", false);
                 tl.LogMessage("Azimuth Get", "Implemented");
+                byte[] output = {Convert.ToByte('2'),1,1,1,Convert.ToByte(';')};
+                double retval = Convert.ToDouble MyCommandString(output, true);
                 return 0.0;
             }
         }
@@ -1039,8 +1041,16 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                tl.LogMessage("Slewing Get", "Not implemented");
-                throw new ASCOM.PropertyNotImplementedException("Slewing", false);
+                //tl.LogMessage("Slewing Get", "Not implemented");
+                //throw new ASCOM.PropertyNotImplementedException("Slewing", false);
+                
+                tl.LogMessage("Slewing Get", "Implemented");
+
+                bool retval = (MyCommandString(new byte[] { Convert.ToByte('0') }, false) == "Ready");
+
+                //"Ready" means it's not slewing
+                return !retval;
+
             }
         }
 
