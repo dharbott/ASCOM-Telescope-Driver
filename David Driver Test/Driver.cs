@@ -352,12 +352,12 @@ namespace ASCOM.Sepikascope001
         // this wont work, so we'll need an explicit function
         // possibly unsafe, to convert between byte arrays to char arrays
         // to strings
-        public String MyCommandString(byte[] byteArray, bool raw)
+        public String MyCommandString(byte[] byteArray, bool ready)
         {
             byte[] byteArray2 = new byte[byteArray.Length+1];
 
             // 'raw' as in ready to transmit, includes ';'
-            if (raw)
+            if (ready)
             {
                 objSerial.TransmitBinary (byteArray);
             }
@@ -480,9 +480,9 @@ namespace ASCOM.Sepikascope001
                 tl.LogMessage("Name Get", name);
 
                 // TESTER
-                byte[] byteArray = new byte[4] {1,1,1,1};
+                byte[] byteArray = new byte[5] { 1, 1, 1, 1, Convert.ToByte(';') };
 
-                return MyCommandString(byteArray, false);
+                return MyCommandString(byteArray, true);
                 //return CommandFormatter(DCommandList.DAzimuth);
                 //return ParamFormatter(0.01);
                 //return name;
@@ -494,8 +494,12 @@ namespace ASCOM.Sepikascope001
         #region ITelescope Implementation
         public void AbortSlew()
         {
-            tl.LogMessage("AbortSlew", "Not implemented");
-            throw new ASCOM.MethodNotImplementedException("AbortSlew");
+            //tl.LogMessage("AbortSlew", "Not implemented");
+            //throw new ASCOM.MethodNotImplementedException("AbortSlew");
+            tl.LogMessage("AbortSlew", "Implemented");
+            byte[] output = { Convert.ToByte('9'), 1, 1, 1, 1, Convert.ToByte(';') };
+            MyCommandString(output, true);
+            return;
         }
 
         public AlignmentModes AlignmentMode
@@ -516,6 +520,14 @@ namespace ASCOM.Sepikascope001
                 //tl.LogMessage("Altitude", "Not implemented");
                 //throw new ASCOM.PropertyNotImplementedException("Altitude", false);
                 tl.LogMessage("Altitude", "Implemented");
+
+                //TODO DEFINE the command chars/bytes
+                byte[] output = new byte[6] { Convert.ToByte('3'), 1, 1, 1, 1, Convert.ToByte(';') };
+
+                //TODO DEFINE TERMINATEDBYTES as ';' and etc
+                byte[] terminatorBytes = new byte[] { Convert.ToByte(';') };
+                objSerial.ReceiveTerminatedBinary(terminatorBytes);
+
                 return 0.0;
             }
         }
@@ -569,8 +581,15 @@ namespace ASCOM.Sepikascope001
                 //tl.LogMessage("Azimuth Get", "Not implemented");
                 //throw new ASCOM.PropertyNotImplementedException("Azimuth", false);
                 tl.LogMessage("Azimuth Get", "Implemented");
-                byte[] output = {Convert.ToByte('2'),1,1,1,Convert.ToByte(';')};
-                double retval = Convert.ToDouble MyCommandString(output, true);
+
+                byte[] output = new byte[6] {Convert.ToByte('2'),1,1,1,1,Convert.ToByte(';')};
+
+                //TODO DEFINE TERMINATEDBYTES as ';' and etc
+                byte[] terminatorBytes = new byte[] { Convert.ToByte(';') };
+                objSerial.ReceiveTerminatedBinary(terminatorBytes);
+
+                //convert bytes to arcminutes, then arcminutes to degrees, X.XXdegrees
+                
                 return 0.0;
             }
         }
@@ -1001,7 +1020,7 @@ namespace ASCOM.Sepikascope001
 
             output[0] = Convert.ToByte('1');
             paramBytes.CopyTo(output, 1);
-            output[5] = Convert.ToByte(';');
+            output[output.Length-1] = Convert.ToByte(';');
 
             MyCommandString(output, true);
         }
@@ -1046,9 +1065,12 @@ namespace ASCOM.Sepikascope001
                 
                 tl.LogMessage("Slewing Get", "Implemented");
 
-                bool retval = (MyCommandString(new byte[] { Convert.ToByte('0') }, false) == "Ready");
+                byte[] output = { Convert.ToByte('0'), 1, 1, 1, 1, Convert.ToByte(';') };
 
-                //"Ready" means it's not slewing
+                //WHY must I process the Arduino's output as Strings?
+                bool retval = (MyCommandString(output,true) == "Ready");
+
+                //not "Ready" means it's still slewing
                 return !retval;
 
             }
@@ -1056,8 +1078,18 @@ namespace ASCOM.Sepikascope001
 
         public void SyncToAltAz(double Azimuth, double Altitude)
         {
-            tl.LogMessage("SyncToAltAz", "Not implemented");
-            throw new ASCOM.MethodNotImplementedException("SyncToAltAz");
+            //tl.LogMessage("SyncToAltAz", "Not implemented");
+            //throw new ASCOM.MethodNotImplementedException("SyncToAltAz");
+            tl.LogMessage("SyncToAltAz", "Implemented");
+
+            byte[] paramBytes = doubleToShortBytes(Azimuth, Altitude);
+            byte[] output = new byte[paramBytes.Length + 2];
+
+            output[0] = Convert.ToByte('7');
+            paramBytes.CopyTo(output, 1);
+            output[output.Length - 1] = Convert.ToByte(';');
+
+            MyCommandString(output, true);
         }
 
         public void SyncToCoordinates(double RightAscension, double Declination)
