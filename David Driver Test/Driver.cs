@@ -354,6 +354,8 @@ namespace ASCOM.Sepikascope001
         // to strings
         public String MyCommandString(byte[] byteArray, bool ready)
         {
+            String retval;
+
             byte[] byteArray2 = new byte[byteArray.Length+1];
 
             // 'raw' as in ready to transmit, includes ';'
@@ -372,7 +374,11 @@ namespace ASCOM.Sepikascope001
             byte[] terminatorBytes = new byte[] {Convert.ToByte(';')};
 
             //return "working";
-            return BitConverter.ToString(objSerial.ReceiveTerminatedBinary(terminatorBytes));
+            //return BitConverter.ToString(objSerial.ReceiveTerminatedBinary(terminatorBytes));
+            //return objSerial.ReceiveTerminated(";");
+            retval = objSerial.ReceiveTerminated(";");
+            retval = retval.Replace(";", "");
+            return retval;
             //return "work in progress: mycommandstring"; //Char.ConvertFromUtf32(0x003B);
         }
         
@@ -523,12 +529,14 @@ namespace ASCOM.Sepikascope001
 
                 //TODO DEFINE the command chars/bytes
                 byte[] output = new byte[6] { Convert.ToByte('3'), 1, 1, 1, 1, Convert.ToByte(';') };
+                
+                string retval = MyCommandString(output, true);
 
                 //TODO DEFINE TERMINATEDBYTES as ';' and etc
-                byte[] terminatorBytes = new byte[] { Convert.ToByte(';') };
-                objSerial.ReceiveTerminatedBinary(terminatorBytes);
+                //byte[] terminatorBytes = new byte[] { Convert.ToByte(';') };
+                //objSerial.ReceiveTerminatedBinary(terminatorBytes);
 
-                return 0.0;
+                return (Convert.ToDouble(retval));
             }
         }
 
@@ -578,19 +586,20 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                //tl.LogMessage("Azimuth Get", "Not implemented");
+                //tl.LogMessage("Azimuth", "Not implemented");
                 //throw new ASCOM.PropertyNotImplementedException("Azimuth", false);
-                tl.LogMessage("Azimuth Get", "Implemented");
+                tl.LogMessage("Azimuth", "Implemented");
 
-                byte[] output = new byte[6] {Convert.ToByte('2'),1,1,1,1,Convert.ToByte(';')};
+                byte[] output = new byte[6] { Convert.ToByte('2'), 1, 1, 1, 1, Convert.ToByte(';') };
+
+                string retval = MyCommandString(output, true);
 
                 //TODO DEFINE TERMINATEDBYTES as ';' and etc
-                byte[] terminatorBytes = new byte[] { Convert.ToByte(';') };
-                objSerial.ReceiveTerminatedBinary(terminatorBytes);
+                //byte[] terminatorBytes = new byte[] { Convert.ToByte(';') };
+                //objSerial.ReceiveTerminatedBinary(terminatorBytes);
 
-                //convert bytes to arcminutes, then arcminutes to degrees, X.XXdegrees
-                
-                return 0.0;
+                //COME BACK LATER
+                return (Convert.ToDouble(retval));
             }
         }
 
@@ -1022,7 +1031,11 @@ namespace ASCOM.Sepikascope001
             paramBytes.CopyTo(output, 1);
             output[output.Length-1] = Convert.ToByte(';');
 
+            objSerial.ReceiveTimeout = 120;
+
             MyCommandString(output, true);
+
+            objSerial.ReceiveTimeout = 5;
         }
 
         public void SlewToAltAzAsync(double Azimuth, double Altitude)
