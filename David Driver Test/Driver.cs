@@ -418,11 +418,8 @@ namespace ASCOM.Sepikascope001
                     objSerial.Speed = SerialSpeed.ps19200;
                     connectedState = true;
                     objSerial.Connected = true;
-                    
-                    //for some reason it isn't transmitting right after connecting
-                    //mystery!!!
-                    //objSerial.Transmit("READY?;");
-                                        
+
+                    System.Threading.Thread.Sleep(1000);
 
                 }
                 else
@@ -1040,8 +1037,22 @@ namespace ASCOM.Sepikascope001
 
         public void SlewToAltAzAsync(double Azimuth, double Altitude)
         {
-            tl.LogMessage("SlewToAltAzAsync", "Not implemented");
-            throw new ASCOM.MethodNotImplementedException("SlewToAltAzAsync");
+            //tl.LogMessage("SlewToAltAzAsync", "Not implemented");
+            //throw new ASCOM.MethodNotImplementedException("SlewToAltAzAsync");
+            tl.LogMessage("SlewToAltAzAsync", "Implemented");
+
+            byte[] paramBytes = doubleToShortBytes(Azimuth, Altitude);
+            byte[] output = new byte[paramBytes.Length + 2];
+
+            output[0] = Convert.ToByte('8');
+            paramBytes.CopyTo(output, 1);
+            output[output.Length - 1] = Convert.ToByte(';');
+
+            objSerial.ReceiveTimeout = 120;
+
+            MyCommandString(output, true);
+
+            objSerial.ReceiveTimeout = 5;
         }
 
         public void SlewToCoordinates(double RightAscension, double Declination)

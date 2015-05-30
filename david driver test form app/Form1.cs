@@ -53,6 +53,10 @@ namespace ASCOM.Sepikascope001
             SlewAzButton.Enabled = IsConnected;
             CheckAzm.Enabled = IsConnected;
             CheckAlt.Enabled = IsConnected;
+            SlewAzAsync.Enabled = IsConnected;
+            Abort.Enabled = IsConnected;
+
+            //this.button2.Click += new System.EventHandler(this.button2_Click);
         }
 
         private bool IsConnected
@@ -231,5 +235,35 @@ namespace ASCOM.Sepikascope001
         {
             textBox6.Text = driver.Altitude.ToString();
         }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SlewAzAsync_Click(object sender, EventArgs e)
+        {
+            double param1 = Convert.ToDouble(textBox3.Text);
+            if ((0.0 <= param1) && (param1 < 360.0))
+            {
+                driver.SlewToAltAzAsync(param1, 3.14);
+            }
+        }
+
+        private void Abort_Click(object sender, EventArgs e)
+        {
+            driver.AbortSlew();
+        }
+
+
+        /*
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                button2.BackColor = colorDialog1.Color;
+            }
+        }
+         * */
     }
 }

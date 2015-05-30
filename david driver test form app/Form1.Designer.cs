@@ -45,6 +45,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.CheckAlt = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.SlewAzAsync = new System.Windows.Forms.Button();
+            this.Abort = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -159,13 +161,15 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.Abort);
+            this.groupBox1.Controls.Add(this.SlewAzAsync);
             this.groupBox1.Controls.Add(this.CheckAzm);
             this.groupBox1.Controls.Add(this.textBox5);
             this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Controls.Add(this.SlewAzButton);
             this.groupBox1.Location = new System.Drawing.Point(12, 227);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(385, 66);
+            this.groupBox1.Size = new System.Drawing.Size(385, 121);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Azimuth Manual Control";
@@ -173,6 +177,7 @@
             // CheckAzm
             // 
             this.CheckAzm.Enabled = false;
+            this.CheckAzm.ForeColor = System.Drawing.Color.Green;
             this.CheckAzm.Location = new System.Drawing.Point(86, 28);
             this.CheckAzm.Name = "CheckAzm";
             this.CheckAzm.Size = new System.Drawing.Size(96, 20);
@@ -187,9 +192,9 @@
             this.groupBox2.Controls.Add(this.textBox4);
             this.groupBox2.Controls.Add(this.textBox6);
             this.groupBox2.Controls.Add(this.SlewAltButton);
-            this.groupBox2.Location = new System.Drawing.Point(12, 299);
+            this.groupBox2.Location = new System.Drawing.Point(12, 354);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(385, 66);
+            this.groupBox2.Size = new System.Drawing.Size(385, 121);
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Altitude Manual Control";
@@ -217,11 +222,36 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Text Commands";
             // 
+            // SlewAzAsync
+            // 
+            this.SlewAzAsync.Enabled = false;
+            this.SlewAzAsync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.SlewAzAsync.Location = new System.Drawing.Point(271, 54);
+            this.SlewAzAsync.Name = "SlewAzAsync";
+            this.SlewAzAsync.Size = new System.Drawing.Size(101, 20);
+            this.SlewAzAsync.TabIndex = 12;
+            this.SlewAzAsync.Text = "SlewAz ASYNC";
+            this.SlewAzAsync.UseVisualStyleBackColor = true;
+            this.SlewAzAsync.Click += new System.EventHandler(this.SlewAzAsync_Click);
+            // 
+            // Abort
+            // 
+            this.Abort.Enabled = false;
+            this.Abort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Abort.ForeColor = System.Drawing.Color.Red;
+            this.Abort.Location = new System.Drawing.Point(271, 80);
+            this.Abort.Name = "Abort";
+            this.Abort.Size = new System.Drawing.Size(101, 20);
+            this.Abort.TabIndex = 13;
+            this.Abort.Text = "ABORT SLEW";
+            this.Abort.UseVisualStyleBackColor = true;
+            this.Abort.Click += new System.EventHandler(this.Abort_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(409, 467);
+            this.ClientSize = new System.Drawing.Size(410, 494);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -261,6 +291,8 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button CheckAzm;
         private System.Windows.Forms.Button CheckAlt;
+        private System.Windows.Forms.Button SlewAzAsync;
+        private System.Windows.Forms.Button Abort;
     }
 }
 
