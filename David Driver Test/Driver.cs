@@ -742,7 +742,7 @@ namespace ASCOM.Sepikascope001
             get
             {
                 tl.LogMessage("CanSync", "Get - " + false.ToString());
-                return false;
+                return true;
             }
         }
 
@@ -751,7 +751,7 @@ namespace ASCOM.Sepikascope001
             get
             {
                 tl.LogMessage("CanSyncAltAz", "Get - " + false.ToString());
-                return false;
+                return true;
             }
         }
 
@@ -876,13 +876,13 @@ namespace ASCOM.Sepikascope001
             if (CanMoveAxis(Axis))
             {
 
-                String commString = Axis.ToString() + ", " + Rate.ToString();
-                //tl.LogMessage("MoveAxis", "Not implemented");
-                //throw new ASCOM.MethodNotImplementedException("MoveAxis");
-                tl.LogMessage("MoveAxis", "Move - " + Axis.ToString() + ", " + Rate.ToString());
+                //String commString = Axis.ToString() + ", " + Rate.ToString();
+                tl.LogMessage("MoveAxis", "Not implemented");
+                throw new ASCOM.MethodNotImplementedException("MoveAxis");
+                //tl.LogMessage("MoveAxis", "Move - " + Axis.ToString() + ", " + Rate.ToString());
                 //
                 //CommandBlind(commString, false);
-                CommandBlind(CommandFormatter(DCommandList.DMoveAxis), false);
+                //CommandBlind(CommandFormatter(DCommandList.DMoveAxis), false);
             }
             else
             {
