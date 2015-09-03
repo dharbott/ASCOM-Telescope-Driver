@@ -207,23 +207,23 @@ namespace ASCOM.Sepikascope001
         private void SlewAzButton_Click(object sender, EventArgs e)
         {
             double param1 = Convert.ToDouble(textBox3.Text);
-            if ((0.0 <= param1) && (param1 < 360.0))
+            double param2 = Convert.ToDouble(textBox4.Text);
+
+            if (((0.0 <= param1) && (param1 < 360.0)) &&
+                ((0.0 <= param2) && (param2 < 360.0)))
             {
-                driver.SlewToAltAz(param1, 3.14);
-            }
-            //textBox4.Text = (Convert.ToInt16(param1)).ToString();
-            
+                driver.SlewToAltAz(param1, param2);
+            } 
+
         }
 
 
         private void SlewAltButton_Click(object sender, EventArgs e)
         {
-            double param2 = Convert.ToDouble(textBox3.Text);
-            if ((0.0 <= param2) && (param2 < 360.0))
-            {
-                driver.SlewToAltAz(3.14, param2);
-            }
             //driver.SlewToAltAz(param1, param2);
+
+            //textBox4.Text = (Convert.ToInt16(param1)).ToString();
+            
         }
 
         private void CheckAzm_Click(object sender, EventArgs e)
