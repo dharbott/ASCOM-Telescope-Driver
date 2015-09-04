@@ -166,7 +166,7 @@ namespace ASCOM.Sepikascope001
         // into a string of 2 bytes, because 1 byte is 8 bits
         private byte[] doubleToShortBytes (double param1)
         {
-            short shortParam = Convert.ToInt16(param1*60);
+            short shortParam = Convert.ToInt16(param1*60.0);
             byte[] byteArray = BitConverter.GetBytes(shortParam);
             return byteArray;
         }
@@ -288,67 +288,74 @@ namespace ASCOM.Sepikascope001
             throw new ASCOM.ActionNotImplementedException("Action " + actionName + " is not implemented by this driver");
         }
 
+
+        //raw means ready to Xmit
+        //No error checking or Exceptions code yet
         public void CommandBlind(string command, bool raw)
         {
             CheckConnected("CommandBlind");
-            // Call CommandString and return as soon as it finishes
-            this.CommandString(command, raw);
-            // or
+
+            if (raw == true) objSerial.Transmit(command);
+            else objSerial.Transmit(command + ";");
+
             //throw new ASCOM.MethodNotImplementedException("CommandBlind");
         }
 
+
+        //raw means ready to Xmit
+        //No error checking or Exceptions code yet
         public bool CommandBool(string command, bool raw)
         {
+
             CheckConnected("CommandBool");
-            string ret = CommandString(command, raw);
+
+            if (raw == true) objSerial.Transmit(command);
+            else objSerial.Transmit(command + ";");
+
+            string retval = objSerial.ReceiveTerminated(";");
+            retval = retval.Replace(";", "");
+
             // TODO decode the return string and return true or false
             // or
-            if (ret == "true")
+            if (retval.Equals("true"))
                 return true;
-            else if (ret == "false")
+            else if (retval.Equals("false"))
                 return false;
             else
-                throw new ASCOM.MethodNotImplementedException("CommandBool");
+                throw new ASCOM.DriverException("CommandBool non boolean return");
         }
 
 
-        // david notes : Here we intercept all the outgoing commandstrings
-        // and replace it the appropriate bytestrings
-        // we also process all the return messages, and hand them off to the
-        // appropriate functions
+
         public string CommandString(string command, bool raw)
         {
             CheckConnected("CommandString");
             // it's a good idea to put all the low level communication with the device here,
             // then all communication calls this function
             // you need something to ensure that only one command is in progress at a time
-            
-            //raw means it ends in ';' terminator character
-            if (raw) 
-            {
-                objSerial.Transmit(command);
-            }
-            
-            //there's no ';' terminator character, lets add it in for the arduino
-            else
-            {
-                objSerial.Transmit(command + ";");
-            }
+
+            int comlen = command.Length;
+            char[] comaray = command.ToCharArray();
+            byte[] byteArray = new byte[comlen * 2];
+
+            //THIS MIGHT WORK, String -> CharArray -> ByteArray ##> TransmitBytes(...)
+            BitConverter.GetBytes(comaray[0]).CopyTo(byteArray, 0);
 
 
-            //
-            
-            //cases : return type determined by the original function call!
-            return objSerial.ReceiveTerminated(";"); 
+            //if (raw == true) objSerial.Transmit(command);
+            //else objSerial.Transmit(command + ";");
 
-            //we'll have to use a STATUS member
-            
+            //string retval = objSerial.ReceiveTerminated(";");
+            string retval = "finished;";
+            retval = retval.Replace(";", "");
+            return retval;
+
             //throw new ASCOM.MethodNotImplementedException("CommandString");
-
         }
 
-     
+
         
+
         // this wont work, so we'll need an explicit function
         // possibly unsafe, to convert between byte arrays to char arrays
         // to strings
@@ -371,7 +378,7 @@ namespace ASCOM.Sepikascope001
             }
             
 
-            byte[] terminatorBytes = new byte[] {Convert.ToByte(';')};
+            //byte[] terminatorBytes = new byte[] {Convert.ToByte(';')};
 
             //return "working";
             //return BitConverter.ToString(objSerial.ReceiveTerminatedBinary(terminatorBytes));
@@ -380,8 +387,8 @@ namespace ASCOM.Sepikascope001
             retval = retval.Replace(";", "");
             return retval;
             //return "work in progress: mycommandstring"; //Char.ConvertFromUtf32(0x003B);
-        }
-        
+        }        
+
 
         public void Dispose()
         {
@@ -1021,18 +1028,28 @@ namespace ASCOM.Sepikascope001
 
             tl.LogMessage("SlewToAltAz", "Implemented");
 
-            byte[] paramBytes = doubleToShortBytes(Azimuth, Altitude);
-            byte[] output = new byte[paramBytes.Length + 2];
+            if (((Azimuth < 0.0) || (Azimuth >= 360.0)) || ((Altitude < 0.0) || (Altitude >= 360.0)))
+                throw new ASCOM.InvalidValueException("SlewToAltAz: Value out of range;");
 
-            output[0] = Convert.ToByte('1');
-            paramBytes.CopyTo(output, 1);
-            output[output.Length-1] = Convert.ToByte(';');
+            //multiply angle in degrees to get angle in minutes!!!
+            char param1 = Convert.ToChar((Convert.ToUInt16(Azimuth * 60.0)));
+            char param2 = Convert.ToChar((Convert.ToUInt16(Altitude * 60.0)));
 
+            string output = "1" + param1;
+            output += param2 + ";";
+            string retval = "";
+
+            //slewing may take some time to achieve, maybe 3 minutes?
+            //we're waiting for confirmation from the Arduino
             objSerial.ReceiveTimeout = 120;
 
-            MyCommandString(output, true);
+            retval = CommandString(output, true);
 
             objSerial.ReceiveTimeout = 5;
+
+            if (!retval.Equals("Slewing Finished"))
+                throw new ASCOM.DriverException("SlewtoAltAz - Fail;");
+
         }
 
         public void SlewToAltAzAsync(double Azimuth, double Altitude)

@@ -41,12 +41,12 @@
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Abort = new System.Windows.Forms.Button();
+            this.SlewAzAsync = new System.Windows.Forms.Button();
             this.CheckAzm = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.CheckAlt = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.SlewAzAsync = new System.Windows.Forms.Button();
-            this.Abort = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -101,6 +101,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(369, 86);
             this.textBox1.TabIndex = 4;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // textBox2
             // 
@@ -174,6 +175,31 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Azimuth Manual Control";
             // 
+            // Abort
+            // 
+            this.Abort.Enabled = false;
+            this.Abort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Abort.ForeColor = System.Drawing.Color.Red;
+            this.Abort.Location = new System.Drawing.Point(271, 80);
+            this.Abort.Name = "Abort";
+            this.Abort.Size = new System.Drawing.Size(101, 20);
+            this.Abort.TabIndex = 13;
+            this.Abort.Text = "ABORT SLEW";
+            this.Abort.UseVisualStyleBackColor = true;
+            this.Abort.Click += new System.EventHandler(this.Abort_Click);
+            // 
+            // SlewAzAsync
+            // 
+            this.SlewAzAsync.Enabled = false;
+            this.SlewAzAsync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.SlewAzAsync.Location = new System.Drawing.Point(271, 54);
+            this.SlewAzAsync.Name = "SlewAzAsync";
+            this.SlewAzAsync.Size = new System.Drawing.Size(101, 20);
+            this.SlewAzAsync.TabIndex = 12;
+            this.SlewAzAsync.Text = "SlewAz ASYNC";
+            this.SlewAzAsync.UseVisualStyleBackColor = true;
+            this.SlewAzAsync.Click += new System.EventHandler(this.SlewAzAsync_Click);
+            // 
             // CheckAzm
             // 
             this.CheckAzm.Enabled = false;
@@ -221,31 +247,6 @@
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Text Commands";
-            // 
-            // SlewAzAsync
-            // 
-            this.SlewAzAsync.Enabled = false;
-            this.SlewAzAsync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.SlewAzAsync.Location = new System.Drawing.Point(271, 54);
-            this.SlewAzAsync.Name = "SlewAzAsync";
-            this.SlewAzAsync.Size = new System.Drawing.Size(101, 20);
-            this.SlewAzAsync.TabIndex = 12;
-            this.SlewAzAsync.Text = "SlewAz ASYNC";
-            this.SlewAzAsync.UseVisualStyleBackColor = true;
-            this.SlewAzAsync.Click += new System.EventHandler(this.SlewAzAsync_Click);
-            // 
-            // Abort
-            // 
-            this.Abort.Enabled = false;
-            this.Abort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Abort.ForeColor = System.Drawing.Color.Red;
-            this.Abort.Location = new System.Drawing.Point(271, 80);
-            this.Abort.Name = "Abort";
-            this.Abort.Size = new System.Drawing.Size(101, 20);
-            this.Abort.TabIndex = 13;
-            this.Abort.Text = "ABORT SLEW";
-            this.Abort.UseVisualStyleBackColor = true;
-            this.Abort.Click += new System.EventHandler(this.Abort_Click);
             // 
             // Form1
             // 

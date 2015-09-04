@@ -209,10 +209,40 @@ namespace ASCOM.Sepikascope001
             double param1 = Convert.ToDouble(textBox3.Text);
             double param2 = Convert.ToDouble(textBox4.Text);
 
+            textBox1.Text += param1;
+            textBox1.Text += "_|_";
+            textBox1.Text += Convert.ToUInt16(param1 * 60.0);
+            textBox1.Text += "_|_";
+
+            ushort param11 = Convert.ToUInt16(param1 * 60.0);
+            ushort param12 = Convert.ToUInt16(param2 * 60.0);
+
+            ushort[] myusarray = new ushort[4];
+            myusarray[0] = param11;
+            myusarray[1] = param12;
+
+            
+
+            string output = "1" + param11;
+            output += param12 + ";";
+
+            textBox1.Text += param11;
+            textBox1.Text += "_|_"; 
+            textBox1.Text += param12;
+            textBox1.Text += "_|_";
+            textBox1.Text += output;
+            textBox1.Text += "_|_";
+
+            byte[] param11b = BitConverter.GetBytes(param11);
+            char param11bch = BitConverter.ToChar(param11b,0);
+
+            textBox1.Text += param11bch;
+            textBox1.Text += "_|_";
+
             if (((0.0 <= param1) && (param1 < 360.0)) &&
                 ((0.0 <= param2) && (param2 < 360.0)))
             {
-                driver.SlewToAltAz(param1, param2);
+                //driver.SlewToAltAz(param1, param2);
             } 
 
         }
@@ -228,12 +258,14 @@ namespace ASCOM.Sepikascope001
 
         private void CheckAzm_Click(object sender, EventArgs e)
         {
-            textBox5.Text = driver.Azimuth.ToString();
+            
+            //textBox5.Text = driver.Azimuth.ToString();
+            
         }
 
         private void CheckAlt_Click(object sender, EventArgs e)
         {
-            textBox6.Text = driver.Altitude.ToString();
+            //textBox6.Text = driver.Altitude.ToString();
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
@@ -253,6 +285,11 @@ namespace ASCOM.Sepikascope001
         private void Abort_Click(object sender, EventArgs e)
         {
             driver.AbortSlew();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
 
