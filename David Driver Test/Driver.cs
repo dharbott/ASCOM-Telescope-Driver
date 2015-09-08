@@ -334,19 +334,31 @@ namespace ASCOM.Sepikascope001
             // then all communication calls this function
             // you need something to ensure that only one command is in progress at a time
 
+
+            //THIS MIGHT WORK: StringInput -> CharArray -> ByteArray ##> TransmitBytes(...)
+
+            //number of characters to convert
             int comlen = command.Length;
-            char[] comaray = command.ToCharArray();
+            
+            //convert command string into character array
+            char[] commandChars = command.ToCharArray();
+
+            //create byte array to fit bytes from character array
             byte[] byteArray = new byte[comlen * 2];
 
-            //THIS MIGHT WORK, String -> CharArray -> ByteArray ##> TransmitBytes(...)
-            BitConverter.GetBytes(comaray[0]).CopyTo(byteArray, 0);
+            //convert each character to 2-byte, and copy the 2-byte into byteArray
+            for (int i = 0; i < comlen; i++)
+            {
+                (BitConverter.GetBytes(commandChars[i])).CopyTo(byteArray, i*2);
+            }
 
+            objSerial.TransmitBinary(byteArray);
 
             //if (raw == true) objSerial.Transmit(command);
             //else objSerial.Transmit(command + ";");
 
-            //string retval = objSerial.ReceiveTerminated(";");
-            string retval = "finished;";
+            string retval = objSerial.ReceiveTerminated(";");
+            //string retval = "finished;";
             retval = retval.Replace(";", "");
             return retval;
 
@@ -1021,6 +1033,8 @@ namespace ASCOM.Sepikascope001
             }
         }
 
+
+        // double -> byteArray -> charArray -> string??
         public void SlewToAltAz(double Azimuth, double Altitude)
         {
             //tl.LogMessage("SlewToAltAz", "Not implemented");
@@ -1028,35 +1042,53 @@ namespace ASCOM.Sepikascope001
 
             tl.LogMessage("SlewToAltAz", "Implemented");
 
-            if (((Azimuth < 0.0) || (Azimuth >= 360.0)) || ((Altitude < 0.0) || (Altitude >= 360.0)))
+            string stringOutgoing = "1";
+            string stringIncoming = "";
+
+            if (((Azimuth <= 0.0) || (Azimuth >= 360.0)) || ((Altitude <= 0.0) || (Altitude >= 360.0)))
                 throw new ASCOM.InvalidValueException("SlewToAltAz: Value out of range;");
 
             //multiply angle in degrees to get angle in minutes!!!
-            char param1 = Convert.ToChar((Convert.ToUInt16(Azimuth * 60.0)));
-            char param2 = Convert.ToChar((Convert.ToUInt16(Altitude * 60.0)));
+            //char param1 = Convert.ToChar((Convert.ToUInt16(Azimuth * 60.0)));
+            //char param2 = Convert.ToChar((Convert.ToUInt16(Altitude * 60.0)));
+            byte[] paramBytes = doubleToShortBytes(Azimuth, Altitude);
 
-            string output = "1" + param1;
-            output += param2 + ";";
-            string retval = "";
+
+            //converts from 2 bytes, into unicode 16bit, thus 2 byte
+            //converts one character at a time
+            for (int i = 0; i < paramBytes.Length; i = i + 2)
+            {
+                stringOutgoing += BitConverter.ToChar(paramBytes, i); 
+            }
+                
+            stringOutgoing += ";";
 
             //slewing may take some time to achieve, maybe 3 minutes?
             //we're waiting for confirmation from the Arduino
             objSerial.ReceiveTimeout = 120;
 
-            retval = CommandString(output, true);
+            stringIncoming = CommandString(stringOutgoing, true);
 
             objSerial.ReceiveTimeout = 5;
 
-            if (!retval.Equals("Slewing Finished"))
+            //designed so that the return string is stripped of terminating char ';'
+            if (!stringIncoming.Equals("Slewing Finished"))
                 throw new ASCOM.DriverException("SlewtoAltAz - Fail;");
 
         }
 
+        //COME BACK LATER
         public void SlewToAltAzAsync(double Azimuth, double Altitude)
         {
             //tl.LogMessage("SlewToAltAzAsync", "Not implemented");
             //throw new ASCOM.MethodNotImplementedException("SlewToAltAzAsync");
             tl.LogMessage("SlewToAltAzAsync", "Implemented");
+
+            //string stringInput = "8";
+            //string stringOutput = "";
+
+            if (((Azimuth <= 0.0) || (Azimuth >= 360.0)) || ((Altitude <= 0.0) || (Altitude >= 360.0)))
+                throw new ASCOM.InvalidValueException("SlewToAltAzAsync: Value out of range;");
 
             byte[] paramBytes = doubleToShortBytes(Azimuth, Altitude);
             byte[] output = new byte[paramBytes.Length + 2];
@@ -1067,7 +1099,7 @@ namespace ASCOM.Sepikascope001
 
             objSerial.ReceiveTimeout = 120;
 
-            MyCommandString(output, true);
+            //MyCommandString(output, true);
 
             objSerial.ReceiveTimeout = 5;
         }

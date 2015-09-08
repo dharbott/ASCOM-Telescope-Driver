@@ -209,6 +209,8 @@ namespace ASCOM.Sepikascope001
             double param1 = Convert.ToDouble(textBox3.Text);
             double param2 = Convert.ToDouble(textBox4.Text);
 
+            /***
+
             textBox1.Text += param1;
             textBox1.Text += "_|_";
             textBox1.Text += Convert.ToUInt16(param1 * 60.0);
@@ -239,9 +241,36 @@ namespace ASCOM.Sepikascope001
             textBox1.Text += param11bch;
             textBox1.Text += "_|_";
 
-            if (((0.0 <= param1) && (param1 < 360.0)) &&
-                ((0.0 <= param2) && (param2 < 360.0)))
+            ***/
+
+            int i = 0;
+            short shortParam1 = Convert.ToInt16(param1 * 60.0);
+            short shortParam2 = Convert.ToInt16(param2 * 60.0);
+            byte[] byteArray1 = BitConverter.GetBytes(shortParam1);
+            byte[] byteArray2 = BitConverter.GetBytes(shortParam2);
+            byte[] outputbytes = new byte[byteArray1.Length + byteArray2.Length];
+
+            byteArray1.CopyTo(outputbytes, 0);
+            byteArray2.CopyTo(outputbytes, byteArray1.Length);
+
+            string stringOutgoing = "";
+            stringOutgoing += "1";
+
+            if (((0.0 <= param1) && (param1 <= 360.0)) &&
+                ((0.0 <= param2) && (param2 <= 360.0)))
             {
+                //converts from 2 bytes, into unicode 16bit, thus 2 byte
+                //converts one character at a time
+                for (i = 0; i < outputbytes.Length; i = i + 2)
+                {
+                    stringOutgoing += BitConverter.ToChar(outputbytes, i);
+                }
+
+                stringOutgoing += ";";
+
+                textBox1.Text += " || ";
+                textBox1.Text += driver.CommandString(stringOutgoing, true);
+
                 //driver.SlewToAltAz(param1, param2);
             } 
 
