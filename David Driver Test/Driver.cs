@@ -171,15 +171,9 @@ namespace ASCOM.Sepikascope001
             return byteArray;
         }
 
-        // TEST IT LATER
+        
         public byte[] doubleToShortBytes (double param1, double param2)
         {
-
-            //float singleFloat1 = Convert.ToSingle(param1);
-            //float singleFloat2 = Convert.ToSingle(param2);
-            //byte[] byteArray1 = BitConverter.GetBytes(singleFloat1);
-            //byte[] byteArray2 = BitConverter.GetBytes(singleFloat2);
-
             byte[] byteArray1 = doubleToShortBytes(param1);
             byte[] byteArray2 = doubleToShortBytes(param2);
             
@@ -195,9 +189,11 @@ namespace ASCOM.Sepikascope001
                 outputIndex++;
             }
             **/
-
+            
             // the reality is that byteArray1 is only 2 bytes
-            // and output only becomes 4 bytes....
+            // and output only becomes 4 bytes
+            // maybe we can make a function that will accept any number of 2-byte arguments
+            // later
             byteArray1.CopyTo(output, 0);
             byteArray2.CopyTo(output, byteArray1.Length);
 
@@ -306,7 +302,6 @@ namespace ASCOM.Sepikascope001
         //No error checking or Exceptions code yet
         public bool CommandBool(string command, bool raw)
         {
-
             CheckConnected("CommandBool");
 
             if (raw == true) objSerial.Transmit(command);
@@ -606,9 +601,11 @@ namespace ASCOM.Sepikascope001
                 //throw new ASCOM.PropertyNotImplementedException("Azimuth", false);
                 tl.LogMessage("Azimuth", "Implemented");
 
-                byte[] output = new byte[6] { Convert.ToByte('2'), 1, 1, 1, 1, Convert.ToByte(';') };
+                //byte[] output = new byte[6] { Convert.ToByte('2'), 1, 1, 1, 1, Convert.ToByte(';') };
 
-                string retval = MyCommandString(output, true);
+                string outputString = "211;";
+
+                string retval = CommandString(outputString, true);
 
                 //TODO DEFINE TERMINATEDBYTES as ';' and etc
                 //byte[] terminatorBytes = new byte[] { Convert.ToByte(';') };
@@ -1048,19 +1045,15 @@ namespace ASCOM.Sepikascope001
             if (((Azimuth <= 0.0) || (Azimuth >= 360.0)) || ((Altitude <= 0.0) || (Altitude >= 360.0)))
                 throw new ASCOM.InvalidValueException("SlewToAltAz: Value out of range;");
 
-            //multiply angle in degrees to get angle in minutes!!!
-            //char param1 = Convert.ToChar((Convert.ToUInt16(Azimuth * 60.0)));
-            //char param2 = Convert.ToChar((Convert.ToUInt16(Altitude * 60.0)));
             byte[] paramBytes = doubleToShortBytes(Azimuth, Altitude);
-
-
+            
             //converts from 2 bytes, into unicode 16bit, thus 2 byte
             //converts one character at a time
             for (int i = 0; i < paramBytes.Length; i = i + 2)
             {
                 stringOutgoing += BitConverter.ToChar(paramBytes, i); 
             }
-                
+
             stringOutgoing += ";";
 
             //slewing may take some time to achieve, maybe 3 minutes?

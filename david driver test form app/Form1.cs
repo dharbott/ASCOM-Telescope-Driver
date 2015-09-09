@@ -53,8 +53,8 @@ namespace ASCOM.Sepikascope001
             SlewAzButton.Enabled = IsConnected;
             CheckAzm.Enabled = IsConnected;
             CheckAlt.Enabled = IsConnected;
-            SlewAzAsync.Enabled = IsConnected;
-            Abort.Enabled = IsConnected;
+            SlewToAltAz.Enabled = IsConnected;
+            AbortSlew.Enabled = IsConnected;
 
             //this.button2.Click += new System.EventHandler(this.button2_Click);
         }
@@ -258,8 +258,7 @@ namespace ASCOM.Sepikascope001
 
             if (((0.0 <= param1) && (param1 <= 360.0)) &&
                 ((0.0 <= param2) && (param2 <= 360.0)))
-            {
-                //converts from 2 bytes, into unicode 16bit, thus 2 byte
+            {               //converts from 2 bytes, into unicode 16bit, thus 2 byte
                 //converts one character at a time
                 for (i = 0; i < outputbytes.Length; i = i + 2)
                 {
@@ -288,13 +287,13 @@ namespace ASCOM.Sepikascope001
         private void CheckAzm_Click(object sender, EventArgs e)
         {
             
-            //textBox5.Text = driver.Azimuth.ToString();
+            textBox5.Text = driver.Azimuth.ToString();
             
         }
 
         private void CheckAlt_Click(object sender, EventArgs e)
         {
-            //textBox6.Text = driver.Altitude.ToString();
+            textBox6.Text = driver.Altitude.ToString();
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
@@ -302,16 +301,19 @@ namespace ASCOM.Sepikascope001
 
         }
 
-        private void SlewAzAsync_Click(object sender, EventArgs e)
+        private void SlewToAltAz_Click(object sender, EventArgs e)
         {
             double param1 = Convert.ToDouble(textBox3.Text);
-            if ((0.0 <= param1) && (param1 < 360.0))
+            double param2 = Convert.ToDouble(textBox4.Text);
+
+            if (((0.0 <= param1) && (param1 <= 360.0)) &&
+                ((0.0 <= param2) && (param2 <= 360.0)))
             {
-                driver.SlewToAltAzAsync(param1, 3.14);
-            }
+                driver.SlewToAltAz(param1, param2);
+            } 
         }
 
-        private void Abort_Click(object sender, EventArgs e)
+        private void AbortSlew_Click(object sender, EventArgs e)
         {
             driver.AbortSlew();
         }
