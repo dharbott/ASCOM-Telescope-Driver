@@ -41,6 +41,9 @@ namespace ASCOM.Sepikascope001
                 textBox1.Text = "";
             }
             SetUIState();
+
+            textBox5.Text = driver.Azimuth.ToString();
+            textBox6.Text = driver.Altitude.ToString();
         }
 
         private void SetUIState()
@@ -49,8 +52,8 @@ namespace ASCOM.Sepikascope001
             buttonChoose.Enabled = !IsConnected;
             buttonConnect.Text = IsConnected ? "Disconnect" : "Connect";
             button1.Enabled = IsConnected;
-            SlewAltButton.Enabled = IsConnected;
-            SlewAzButton.Enabled = IsConnected;
+            //SlewAltButton.Enabled = IsConnected;
+            //SlewAzButton.Enabled = IsConnected;
             CheckAzm.Enabled = IsConnected;
             CheckAlt.Enabled = IsConnected;
             SlewToAltAz.Enabled = IsConnected;
@@ -310,7 +313,10 @@ namespace ASCOM.Sepikascope001
                 ((0.0 <= param2) && (param2 <= 360.0)))
             {
                 driver.SlewToAltAz(param1, param2);
-            } 
+            }
+
+            textBox5.Text = driver.Azimuth.ToString();
+            textBox6.Text = driver.Altitude.ToString();
         }
 
         private void AbortSlew_Click(object sender, EventArgs e)
@@ -319,6 +325,26 @@ namespace ASCOM.Sepikascope001
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SetAzm_Click(object sender, EventArgs e)
+        {
+            //driver.SyncToAltAz
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SlewAzButton_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SlewAltButton_Click_1(object sender, EventArgs e)
         {
 
         }
