@@ -539,9 +539,13 @@ namespace ASCOM.Sepikascope001
                 tl.LogMessage("Altitude", "Implemented");
 
                 //TODO DEFINE the command chars/bytes
-                byte[] output = new byte[6] { Convert.ToByte('3'), 1, 1, 1, 1, Convert.ToByte(';') };
-                
-                string retval = MyCommandString(output, true);
+                //byte[] output = new byte[6] { Convert.ToByte('3'), 1, 1, 1, 1, Convert.ToByte(';') };
+
+                string outputString = "311;";
+
+                string retval = CommandString(outputString, true);
+
+                //string retval = MyCommandString(output, true);
 
                 //TODO DEFINE TERMINATEDBYTES as ';' and etc
                 //byte[] terminatorBytes = new byte[] { Convert.ToByte(';') };
@@ -1145,14 +1149,28 @@ namespace ASCOM.Sepikascope001
             //throw new ASCOM.MethodNotImplementedException("SyncToAltAz");
             tl.LogMessage("SyncToAltAz", "Implemented");
 
+            string stringOutgoing = "7";
+            string stringIncoming = "";
+
+            if (((Azimuth <= 0.0) || (Azimuth >= 360.0)) || ((Altitude <= 0.0) || (Altitude >= 360.0)))
+                throw new ASCOM.InvalidValueException("SyncToAltAz: Value out of range;");
+
             byte[] paramBytes = doubleToShortBytes(Azimuth, Altitude);
-            byte[] output = new byte[paramBytes.Length + 2];
 
-            output[0] = Convert.ToByte('7');
-            paramBytes.CopyTo(output, 1);
-            output[output.Length - 1] = Convert.ToByte(';');
+            //converts from 2 bytes, into unicode 16bit, thus 2 byte
+            //converts one character at a time
+            for (int i = 0; i < paramBytes.Length; i = i + 2)
+            {
+                stringOutgoing += BitConverter.ToChar(paramBytes, i);
+            }
 
-            MyCommandString(output, true);
+            stringOutgoing += ";";
+            
+            stringIncoming = CommandString(stringOutgoing, true);
+
+            if (!stringIncoming.Equals("SyncToAltAz Complete"))
+                throw new ASCOM.DriverException("SyncToAltAz - Fail;");
+
         }
 
         public void SyncToCoordinates(double RightAscension, double Declination)
