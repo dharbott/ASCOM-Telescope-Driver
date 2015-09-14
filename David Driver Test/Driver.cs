@@ -122,44 +122,9 @@ namespace ASCOM.Sepikascope001
             //DSupportedActions
         };
 
-                // tested and it works
-        // next step is to redo function to return byte[],
-        // formatting op codes and parameters into command words
-        // to transmit over objSerial.TransmitBinary(byte[])
-        private String CommandFormatter (DCommandList DCommand)
-        {
-            switch (DCommand)
-            {
-                case DCommandList.DAltitudeLimit:
-                    ;
-                    return "DAltitudeLimit";
-                case DCommandList.DMoveAxis:
-                    ;
-                    return "DMoveAxis";
-                case DCommandList.DSlewToAltAz:
-                    ;
-                    return "DSlewToAltAz";
-                case DCommandList.DSlewing:
-                    ;
-                    return "DSlewing";
-                case DCommandList.DAbortSlew:
-                    ;
-                    return "AbortSlew";
-                case DCommandList.DAltitude:
-                    ;
-                    return "DAltitude";
-                case DCommandList.DAzimuth:
-                    ;
-                    return "DAzimuth";
-                case DCommandList.DSyncToAltAz:
-                    ;
-                    return "DSyncToAltAz";
-                default:
-                    return "not found - error";                
-            }
-        }
+        private bool commandBusy = false;
 
-
+        
         // explicit function that converts a double floating point
         // angular degree into arcminutes, and then rounded into
         // a 16-bit integer, a 'short' in c#, and then converted
@@ -292,7 +257,7 @@ namespace ASCOM.Sepikascope001
             CheckConnected("CommandBlind");
 
             if (raw == true) objSerial.Transmit(command);
-            else objSerial.Transmit(command + ";");
+            else objSerial.Transmit(command + "~");
 
             //throw new ASCOM.MethodNotImplementedException("CommandBlind");
         }
@@ -304,11 +269,27 @@ namespace ASCOM.Sepikascope001
         {
             CheckConnected("CommandBool");
 
-            if (raw == true) objSerial.Transmit(command);
-            else objSerial.Transmit(command + ";");
+            if (raw == false) command += "~";
 
-            string retval = objSerial.ReceiveTerminated(";");
-            retval = retval.Replace(";", "");
+            //number of characters to convert
+            int comlen = command.Length;
+
+            //convert command string into character array
+            char[] commandChars = command.ToCharArray();
+
+            //create byte array to fit bytes from character array
+            byte[] byteArray = new byte[comlen * 2];
+
+            //convert each character to 2-byte, and copy the 2-byte into byteArray
+            for (int i = 0; i < comlen; i++)
+            {
+                (BitConverter.GetBytes(commandChars[i])).CopyTo(byteArray, i * 2);
+            }
+
+            objSerial.TransmitBinary(byteArray);
+
+            string retval = objSerial.ReceiveTerminated("~");
+            retval = retval.Replace("~", "");
 
             // TODO decode the return string and return true or false
             // or
@@ -329,8 +310,10 @@ namespace ASCOM.Sepikascope001
             // then all communication calls this function
             // you need something to ensure that only one command is in progress at a time
 
+            commandBusy = true;
 
             //THIS MIGHT WORK: StringInput -> CharArray -> ByteArray ##> TransmitBytes(...)
+            //NOTE: IT WORKS, but we can't use terminating characters??
 
             //number of characters to convert
             int comlen = command.Length;
@@ -339,22 +322,18 @@ namespace ASCOM.Sepikascope001
             char[] commandChars = command.ToCharArray();
 
             //create byte array to fit bytes from character array
-            byte[] byteArray = new byte[comlen * 2];
+            byte[] byteArray = new byte[1 + (comlen * 2)];
 
             //convert each character to 2-byte, and copy the 2-byte into byteArray
             for (int i = 0; i < comlen; i++)
             {
-                (BitConverter.GetBytes(commandChars[i])).CopyTo(byteArray, i*2);
+                (BitConverter.GetBytes(commandChars[i])).CopyTo(byteArray, 1 + (i*2));
             }
-
+            byteArray[0] = Convert.ToByte(byteArray.Length);
             objSerial.TransmitBinary(byteArray);
 
-            //if (raw == true) objSerial.Transmit(command);
-            //else objSerial.Transmit(command + ";");
-
-            string retval = objSerial.ReceiveTerminated(";");
-            //string retval = "finished;";
-            retval = retval.Replace(";", "");
+            string retval = objSerial.ReceiveTerminated("~~");
+            retval = retval.Replace("~~", "");
             return retval;
 
             //throw new ASCOM.MethodNotImplementedException("CommandString");
@@ -363,9 +342,7 @@ namespace ASCOM.Sepikascope001
 
         
 
-        // this wont work, so we'll need an explicit function
-        // possibly unsafe, to convert between byte arrays to char arrays
-        // to strings
+        // WARNING: OBSOLETE!!!
         public String MyCommandString(byte[] byteArray, bool ready)
         {
             String retval;
@@ -381,7 +358,7 @@ namespace ASCOM.Sepikascope001
             {
                 //byteArray.CopyTo(byteArray2, 0);
                 objSerial.TransmitBinary(byteArray);
-                objSerial.Transmit(";");
+                objSerial.Transmit("~");
             }
             
 
@@ -389,9 +366,9 @@ namespace ASCOM.Sepikascope001
 
             //return "working";
             //return BitConverter.ToString(objSerial.ReceiveTerminatedBinary(terminatorBytes));
-            //return objSerial.ReceiveTerminated(";");
-            retval = objSerial.ReceiveTerminated(";");
-            retval = retval.Replace(";", "");
+            //return objSerial.ReceiveTerminated("~");
+            retval = objSerial.ReceiveTerminated("~");
+            retval = retval.Replace("~", "");
             return retval;
             //return "work in progress: mycommandstring"; //Char.ConvertFromUtf32(0x003B);
         }        
@@ -496,13 +473,7 @@ namespace ASCOM.Sepikascope001
                 string name = "Sepikascope Telescope Driver 001";
                 tl.LogMessage("Name Get", name);
 
-                // TESTER
-                byte[] byteArray = new byte[5] { 1, 1, 1, 1, Convert.ToByte(';') };
-
-                return MyCommandString(byteArray, true);
-                //return CommandFormatter(DCommandList.DAzimuth);
-                //return ParamFormatter(0.01);
-                //return name;
+                return name;
             }
         }
 
@@ -514,9 +485,11 @@ namespace ASCOM.Sepikascope001
             //tl.LogMessage("AbortSlew", "Not implemented");
             //throw new ASCOM.MethodNotImplementedException("AbortSlew");
             tl.LogMessage("AbortSlew", "Implemented");
-            byte[] output = { Convert.ToByte('9'), 1, 1, 1, 1, Convert.ToByte(';') };
-            MyCommandString(output, true);
-            return;
+
+            string outputString = "911;";
+
+            //change to CommandBlind
+            string retval = CommandString(outputString, true);
         }
 
         public AlignmentModes AlignmentMode
@@ -538,18 +511,9 @@ namespace ASCOM.Sepikascope001
                 //throw new ASCOM.PropertyNotImplementedException("Altitude", false);
                 tl.LogMessage("Altitude", "Implemented");
 
-                //TODO DEFINE the command chars/bytes
-                //byte[] output = new byte[6] { Convert.ToByte('3'), 1, 1, 1, 1, Convert.ToByte(';') };
-
                 string outputString = "311;";
 
                 string retval = CommandString(outputString, true);
-
-                //string retval = MyCommandString(output, true);
-
-                //TODO DEFINE TERMINATEDBYTES as ';' and etc
-                //byte[] terminatorBytes = new byte[] { Convert.ToByte(';') };
-                //objSerial.ReceiveTerminatedBinary(terminatorBytes);
 
                 return (Convert.ToDouble(retval));
             }
@@ -605,17 +569,10 @@ namespace ASCOM.Sepikascope001
                 //throw new ASCOM.PropertyNotImplementedException("Azimuth", false);
                 tl.LogMessage("Azimuth", "Implemented");
 
-                //byte[] output = new byte[6] { Convert.ToByte('2'), 1, 1, 1, 1, Convert.ToByte(';') };
-
                 string outputString = "211;";
 
                 string retval = CommandString(outputString, true);
 
-                //TODO DEFINE TERMINATEDBYTES as ';' and etc
-                //byte[] terminatorBytes = new byte[] { Convert.ToByte(';') };
-                //objSerial.ReceiveTerminatedBinary(terminatorBytes);
-
-                //COME BACK LATER
                 return (Convert.ToDouble(retval));
             }
         }
@@ -1055,7 +1012,7 @@ namespace ASCOM.Sepikascope001
                 stringOutgoing += BitConverter.ToChar(paramBytes, i); 
             }
 
-            stringOutgoing += ";";
+            stringOutgoing += "~";
 
             //slewing may take some time to achieve, maybe 3 minutes?
             //we're waiting for confirmation from the Arduino
@@ -1067,7 +1024,7 @@ namespace ASCOM.Sepikascope001
 
             //designed so that the return string is stripped of terminating char ';'
             if (!stringIncoming.Equals("Slewing Finished"))
-                throw new ASCOM.DriverException("SlewtoAltAz - Fail;");
+                throw new ASCOM.DriverException("SlewToAltAz - Fail;");
 
         }
 
@@ -1078,24 +1035,25 @@ namespace ASCOM.Sepikascope001
             //throw new ASCOM.MethodNotImplementedException("SlewToAltAzAsync");
             tl.LogMessage("SlewToAltAzAsync", "Implemented");
 
-            //string stringInput = "8";
-            //string stringOutput = "";
+            string stringOutgoing = "8";
+            string stringIncoming = "";
 
             if (((Azimuth <= 0.0) || (Azimuth >= 360.0)) || ((Altitude <= 0.0) || (Altitude >= 360.0)))
                 throw new ASCOM.InvalidValueException("SlewToAltAzAsync: Value out of range;");
 
             byte[] paramBytes = doubleToShortBytes(Azimuth, Altitude);
-            byte[] output = new byte[paramBytes.Length + 2];
 
-            output[0] = Convert.ToByte('8');
-            paramBytes.CopyTo(output, 1);
-            output[output.Length - 1] = Convert.ToByte(';');
+            for (int i = 0; i < paramBytes.Length; i = i + 2)
+            {
+                stringOutgoing += BitConverter.ToChar(paramBytes, i);
+            }
 
-            objSerial.ReceiveTimeout = 120;
+            stringOutgoing += "~";
 
-            //MyCommandString(output, true);
+            stringIncoming = CommandString(stringOutgoing, true);
 
-            objSerial.ReceiveTimeout = 5;
+            if (!stringIncoming.Equals("Slewing Async Finished"))
+                throw new ASCOM.DriverException("SlewToAltAzAsync - Fail;");
         }
 
         public void SlewToCoordinates(double RightAscension, double Declination)
@@ -1164,7 +1122,7 @@ namespace ASCOM.Sepikascope001
                 stringOutgoing += BitConverter.ToChar(paramBytes, i);
             }
 
-            stringOutgoing += ";";
+            stringOutgoing += "~";
             
             stringIncoming = CommandString(stringOutgoing, true);
 

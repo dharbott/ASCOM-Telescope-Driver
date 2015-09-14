@@ -33,10 +33,10 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.AzimuthInput = new System.Windows.Forms.TextBox();
             this.SlewToAltAz = new System.Windows.Forms.Button();
             this.AbortSlew = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.AltitudeInput = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.SetAltAzm = new System.Windows.Forms.Button();
             this.CheckAlt = new System.Windows.Forms.Button();
@@ -95,10 +95,10 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.textBox4);
+            this.groupBox5.Controls.Add(this.AzimuthInput);
             this.groupBox5.Controls.Add(this.SlewToAltAz);
             this.groupBox5.Controls.Add(this.AbortSlew);
-            this.groupBox5.Controls.Add(this.textBox3);
+            this.groupBox5.Controls.Add(this.AltitudeInput);
             this.groupBox5.Location = new System.Drawing.Point(307, 19);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(359, 112);
@@ -106,13 +106,13 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "SlewTo";
             // 
-            // textBox4
+            // AzimuthInput
             // 
-            this.textBox4.ForeColor = System.Drawing.Color.Red;
-            this.textBox4.Location = new System.Drawing.Point(10, 17);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(77, 20);
-            this.textBox4.TabIndex = 18;
+            this.AzimuthInput.ForeColor = System.Drawing.Color.Red;
+            this.AzimuthInput.Location = new System.Drawing.Point(10, 43);
+            this.AzimuthInput.Name = "AzimuthInput";
+            this.AzimuthInput.Size = new System.Drawing.Size(77, 20);
+            this.AzimuthInput.TabIndex = 18;
             // 
             // SlewToAltAz
             // 
@@ -140,13 +140,13 @@
             this.AbortSlew.UseVisualStyleBackColor = true;
             this.AbortSlew.Click += new System.EventHandler(this.AbortSlew_Click);
             // 
-            // textBox3
+            // AltitudeInput
             // 
-            this.textBox3.ForeColor = System.Drawing.Color.Red;
-            this.textBox3.Location = new System.Drawing.Point(10, 42);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(77, 20);
-            this.textBox3.TabIndex = 15;
+            this.AltitudeInput.ForeColor = System.Drawing.Color.Red;
+            this.AltitudeInput.Location = new System.Drawing.Point(10, 17);
+            this.AltitudeInput.Name = "AltitudeInput";
+            this.AltitudeInput.Size = new System.Drawing.Size(77, 20);
+            this.AltitudeInput.TabIndex = 15;
             // 
             // groupBox4
             // 
@@ -310,9 +310,9 @@
         private System.Windows.Forms.Button buttonChoose;
         private System.Windows.Forms.Label labelDriverId;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox AzimuthInput;
         private System.Windows.Forms.Button SlewToAltAz;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox AltitudeInput;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button SetAltAzm;
         private System.Windows.Forms.TextBox AltitudeBox;
