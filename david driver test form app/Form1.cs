@@ -40,8 +40,8 @@ namespace ASCOM.Sepikascope001
                 driver.Connected = true;
                 textBox1.Text = "";
 
-                AzimuthBox.Text = driver.Azimuth.ToString();
-                AltitudeBox.Text = driver.Altitude.ToString();
+                //AzimuthBox.Text = driver.Azimuth.ToString();
+                //AltitudeBox.Text = driver.Altitude.ToString();
             }
             SetUIState();
         }
@@ -138,7 +138,7 @@ namespace ASCOM.Sepikascope001
 
         private void AbortSlew_Click(object sender, EventArgs e)
         {
-            string stringOutgoing = "1";
+            string stringOutgoing = "5";
             string stringIncoming = "";
 
             double param1 = Convert.ToDouble(AltitudeInput.Text);

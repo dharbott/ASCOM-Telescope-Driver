@@ -332,8 +332,8 @@ namespace ASCOM.Sepikascope001
             byteArray[0] = Convert.ToByte(byteArray.Length);
             objSerial.TransmitBinary(byteArray);
 
-            string retval = objSerial.ReceiveTerminated("~~");
-            retval = retval.Replace("~~", "");
+            string retval = objSerial.ReceiveTerminated("~");
+            retval = retval.Replace("~", "");
             return retval;
 
             //throw new ASCOM.MethodNotImplementedException("CommandString");
