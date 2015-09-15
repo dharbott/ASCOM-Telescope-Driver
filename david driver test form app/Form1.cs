@@ -138,7 +138,7 @@ namespace ASCOM.Sepikascope001
 
         private void AbortSlew_Click(object sender, EventArgs e)
         {
-            string stringOutgoing = "5";
+            string stringOutgoing = "3";
             string stringIncoming = "";
 
             double param1 = Convert.ToDouble(AltitudeInput.Text);

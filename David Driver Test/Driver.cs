@@ -486,7 +486,7 @@ namespace ASCOM.Sepikascope001
             //throw new ASCOM.MethodNotImplementedException("AbortSlew");
             tl.LogMessage("AbortSlew", "Implemented");
 
-            string outputString = "911;";
+            string outputString = "911~";
 
             //change to CommandBlind
             string retval = CommandString(outputString, true);
@@ -511,7 +511,7 @@ namespace ASCOM.Sepikascope001
                 //throw new ASCOM.PropertyNotImplementedException("Altitude", false);
                 tl.LogMessage("Altitude", "Implemented");
 
-                string outputString = "311;";
+                string outputString = "311~";
 
                 string retval = CommandString(outputString, true);
 
@@ -569,7 +569,7 @@ namespace ASCOM.Sepikascope001
                 //throw new ASCOM.PropertyNotImplementedException("Azimuth", false);
                 tl.LogMessage("Azimuth", "Implemented");
 
-                string outputString = "211;";
+                string outputString = "211~";
 
                 string retval = CommandString(outputString, true);
 
