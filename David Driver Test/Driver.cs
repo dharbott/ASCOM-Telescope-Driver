@@ -1023,9 +1023,18 @@ namespace ASCOM.Sepikascope001
             objSerial.ReceiveTimeout = 5;
 
             //designed so that the return string is stripped of terminating char ';'
-            if (!stringIncoming.Equals("Slewing Finished"))
-                throw new ASCOM.DriverException("SlewToAltAz - Fail;");
+            if (stringIncoming.Equals("Slewing Finished"))
+            {
 
+            }
+            else if (stringIncoming.Equals("AltLimit"))
+            {
+                throw new ASCOM.InvalidValueException("Altitude Limit Hit;");
+            }
+            else
+            {
+                throw new ASCOM.DriverException("SlewToAltAz - Fail;");
+            }
         }
 
         //COME BACK LATER
