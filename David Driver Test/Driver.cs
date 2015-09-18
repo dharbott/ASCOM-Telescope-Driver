@@ -1023,13 +1023,13 @@ namespace ASCOM.Sepikascope001
             objSerial.ReceiveTimeout = 5;
 
             //designed so that the return string is stripped of terminating char ';'
-            if (stringIncoming.Equals("Slewing Finished"))
+            if (stringIncoming.Equals("Slewing Operation Finished"))
             {
 
             }
-            else if (stringIncoming.Equals("AltLimit"))
+            else if (stringIncoming.Contains("Altitude Limit Switch Triggered"))
             {
-                throw new ASCOM.InvalidValueException("Altitude Limit Hit;");
+                throw new ASCOM.InvalidValueException("Altitude Limit Switch Triggered;");
             }
             else
             {

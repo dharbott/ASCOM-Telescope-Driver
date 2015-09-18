@@ -40,8 +40,10 @@ namespace ASCOM.Sepikascope001
                 driver.Connected = true;
                 textBox1.Text = "";
 
-                //AzimuthBox.Text = driver.Azimuth.ToString();
-                //AltitudeBox.Text = driver.Altitude.ToString();
+                AzimuthBox.Text = driver.Azimuth.ToString();
+                AltitudeBox.Text = driver.Altitude.ToString();
+                AzimuthInput.Text = driver.Azimuth.ToString();
+                AltitudeInput.Text = driver.Altitude.ToString();
             }
             SetUIState();
         }
