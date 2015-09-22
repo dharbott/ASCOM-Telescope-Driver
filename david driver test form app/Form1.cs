@@ -5,6 +5,8 @@ namespace ASCOM.Sepikascope001
 {
     public partial class Form1 : Form
     {
+        private int slewScale = 1;
+
 
         private ASCOM.DriverAccess.Telescope driver;
 
@@ -60,6 +62,7 @@ namespace ASCOM.Sepikascope001
             AbortSlew.Enabled = IsConnected;
             SetAltAzm.Enabled = IsConnected;
             SlewAsync.Enabled = IsConnected;
+            label1.Text = "Increment : " + trackBar1.Value.ToString();
         }
 
         private bool IsConnected
@@ -170,6 +173,70 @@ namespace ASCOM.Sepikascope001
             {
                 driver.SlewToAltAzAsync(AzimuthIn, AltitudeIn);
             }
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            label1.Text = "Increment : " + trackBar1.Value.ToString();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            driver.AbortSlew();
+            AzimuthBox.Text = driver.Azimuth.ToString();
+            AltitudeBox.Text = driver.Altitude.ToString();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            slewScale = trackBar1.Value * 1;
+            driver.SlewToAltAzAsync(((driver.Azimuth + slewScale) % 360), driver.Altitude);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            slewScale = trackBar1.Value * 1;
+            driver.SlewToAltAzAsync(((driver.Azimuth - slewScale + 360) % 360), driver.Altitude);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            slewScale = trackBar1.Value * 1;
+            driver.SlewToAltAzAsync(driver.Azimuth, ((driver.Altitude + slewScale) % 360));
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            slewScale = trackBar1.Value * 1;
+            driver.SlewToAltAzAsync(driver.Azimuth, ((driver.Altitude - slewScale + 360) % 360));
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            slewScale = trackBar1.Value * 1;
+            driver.SlewToAltAzAsync(((driver.Azimuth - slewScale + 360) % 360),
+                ((driver.Altitude + slewScale) % 360));
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            slewScale = trackBar1.Value * 1;
+            driver.SlewToAltAzAsync(((driver.Azimuth + slewScale) % 360),
+                ((driver.Altitude + slewScale) % 360));
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            slewScale = trackBar1.Value * 1;
+            driver.SlewToAltAzAsync(((driver.Azimuth - slewScale + 360) % 360),
+                ((driver.Altitude - slewScale + 360) % 360));
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            slewScale = trackBar1.Value * 1;
+            driver.SlewToAltAzAsync(((driver.Azimuth + slewScale) % 360),
+                ((driver.Altitude - slewScale + 360) % 360));
         }
     }
 }
