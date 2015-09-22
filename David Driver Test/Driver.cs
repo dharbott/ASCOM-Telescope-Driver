@@ -191,15 +191,14 @@ namespace ASCOM.Sepikascope001
 
             actionsArrayList = new ArrayList();
 
-            actionsArrayList.Add("CanMoveAxis"); // returns true for azimuth
-            //actionsArrayList.Add("MoveAxis");
-            actionsArrayList.Add("SlewToAltAz"); // slews azimuth, not altitude yet
-            actionsArrayList.Add("Slewing"); // returns false until
-                                             // I implement threads
-            //actionsArrayList.Add("AbortSlew");
-            actionsArrayList.Add("Altitude"); // not implemented yet
-            actionsArrayList.Add("Azimuth");  // returns arcminutes
-            //actionsArrayList.Add("SyncToAltAz");
+            actionsArrayList.Add("CanMoveAxis"); //can move Alt, Azm
+            //actionsArrayList.Add("MoveAxis"); //not sure how to implement
+            actionsArrayList.Add("SlewToAltAz"); //functional
+            actionsArrayList.Add("Slewing"); //untested, not written?
+            actionsArrayList.Add("AbortSlew"); //functional
+            actionsArrayList.Add("Altitude"); //functional
+            actionsArrayList.Add("Azimuth");  //functional
+            actionsArrayList.Add("SyncToAltAz"); //functional
             actionsArrayList.Add("SupportedActions");
         }
 
@@ -490,6 +489,8 @@ namespace ASCOM.Sepikascope001
 
             //change to CommandBlind
             string retval = CommandString(outputString, true);
+            if (!retval.Equals("Slewing Async Aborted"))
+                throw new ASCOM.DriverException("Slew Async Abort - Fail;");
         }
 
         public AlignmentModes AlignmentMode
@@ -1000,7 +1001,7 @@ namespace ASCOM.Sepikascope001
             string stringOutgoing = "1";
             string stringIncoming = "";
 
-            if (((Azimuth <= 0.0) || (Azimuth >= 360.0)) || ((Altitude <= 0.0) || (Altitude >= 360.0)))
+            if (((Azimuth < 0.0) || (Azimuth > 360.0)) || ((Altitude < 0.0) || (Altitude > 360.0)))
                 throw new ASCOM.InvalidValueException("SlewToAltAz: Value out of range;");
 
             byte[] paramBytes = doubleToShortBytes(Azimuth, Altitude);
@@ -1047,7 +1048,7 @@ namespace ASCOM.Sepikascope001
             string stringOutgoing = "8";
             string stringIncoming = "";
 
-            if (((Azimuth <= 0.0) || (Azimuth >= 360.0)) || ((Altitude <= 0.0) || (Altitude >= 360.0)))
+            if (((Azimuth < 0.0) || (Azimuth > 360.0)) || ((Altitude < 0.0) || (Altitude > 360.0)))
                 throw new ASCOM.InvalidValueException("SlewToAltAzAsync: Value out of range;");
 
             byte[] paramBytes = doubleToShortBytes(Azimuth, Altitude);
@@ -1061,7 +1062,7 @@ namespace ASCOM.Sepikascope001
 
             stringIncoming = CommandString(stringOutgoing, true);
 
-            if (!stringIncoming.Equals("Slewing Async Finished"))
+            if (!stringIncoming.Equals("Slewing Async Started"))
                 throw new ASCOM.DriverException("SlewToAltAzAsync - Fail;");
         }
 
@@ -1119,7 +1120,7 @@ namespace ASCOM.Sepikascope001
             string stringOutgoing = "7";
             string stringIncoming = "";
 
-            if (((Azimuth <= 0.0) || (Azimuth >= 360.0)) || ((Altitude <= 0.0) || (Altitude >= 360.0)))
+            if (((Azimuth < 0.0) || (Azimuth > 360.0)) || ((Altitude < 0.0) || (Altitude > 360.0)))
                 throw new ASCOM.InvalidValueException("SyncToAltAz: Value out of range;");
 
             byte[] paramBytes = doubleToShortBytes(Azimuth, Altitude);

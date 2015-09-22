@@ -59,7 +59,7 @@ namespace ASCOM.Sepikascope001
             SlewToAltAz.Enabled = IsConnected;
             AbortSlew.Enabled = IsConnected;
             SetAltAzm.Enabled = IsConnected;
-
+            SlewAsync.Enabled = IsConnected;
         }
 
         private bool IsConnected
@@ -140,37 +140,9 @@ namespace ASCOM.Sepikascope001
 
         private void AbortSlew_Click(object sender, EventArgs e)
         {
-            string stringOutgoing = "3";
-            string stringIncoming = "";
-
-            double param1 = Convert.ToDouble(AltitudeInput.Text);
-            double param2 = Convert.ToDouble(AzimuthInput.Text);
-
-            ushort shortParam1 = Convert.ToUInt16(param1 * 60.0);
-            byte[] byteArray1 = BitConverter.GetBytes(shortParam1);
-            ushort shortParam2 = Convert.ToUInt16(param2 * 60.0);
-            byte[] byteArray2 = BitConverter.GetBytes(shortParam2);
-
-            byte[] output = new byte[byteArray1.Length + byteArray2.Length];
-
-            byteArray1.CopyTo(output, 0);
-            byteArray2.CopyTo(output, byteArray1.Length);
-
-
-            //converts from 2 bytes, into unicode 16bit, thus 2 byte
-            //converts one character at a time
-            for (int i = 0; i < output.Length; i = i + 2)
-            {
-                stringOutgoing += BitConverter.ToChar(output, i);
-            }
-
-            stringOutgoing += "~";
-
-            stringIncoming = driver.CommandString(stringOutgoing, true);
-
-            textBox1.Text += stringIncoming;
-
-            //driver.AbortSlew();
+            driver.AbortSlew();
+            AzimuthBox.Text = driver.Azimuth.ToString();
+            AltitudeBox.Text = driver.Altitude.ToString();
         }
 
         private void SetAzm_Click(object sender, EventArgs e)
@@ -186,6 +158,18 @@ namespace ASCOM.Sepikascope001
 
             AzimuthBox.Text = driver.Azimuth.ToString();
             AltitudeBox.Text = driver.Altitude.ToString();
+        }
+
+        private void SlewAsync_Click(object sender, EventArgs e)
+        {
+            double AltitudeIn = Convert.ToDouble(AltitudeInput.Text);
+            double AzimuthIn = Convert.ToDouble(AzimuthInput.Text);
+
+            if (((0.0 <= AltitudeIn) && (AltitudeIn <= 360.0)) &&
+                ((0.0 <= AzimuthIn) && (AzimuthIn <= 360.0)))
+            {
+                driver.SlewToAltAzAsync(AzimuthIn, AltitudeIn);
+            }
         }
     }
 }

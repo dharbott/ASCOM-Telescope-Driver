@@ -33,6 +33,7 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.SlewAsync = new System.Windows.Forms.Button();
             this.AzimuthInput = new System.Windows.Forms.TextBox();
             this.SlewToAltAz = new System.Windows.Forms.Button();
             this.AbortSlew = new System.Windows.Forms.Button();
@@ -95,6 +96,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.SlewAsync);
             this.groupBox5.Controls.Add(this.AzimuthInput);
             this.groupBox5.Controls.Add(this.SlewToAltAz);
             this.groupBox5.Controls.Add(this.AbortSlew);
@@ -105,6 +107,19 @@
             this.groupBox5.TabIndex = 19;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "SlewTo";
+            // 
+            // SlewAsync
+            // 
+            this.SlewAsync.Enabled = false;
+            this.SlewAsync.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SlewAsync.ForeColor = System.Drawing.Color.Fuchsia;
+            this.SlewAsync.Location = new System.Drawing.Point(93, 42);
+            this.SlewAsync.Name = "SlewAsync";
+            this.SlewAsync.Size = new System.Drawing.Size(143, 20);
+            this.SlewAsync.TabIndex = 19;
+            this.SlewAsync.Text = "SLEW ALT AZ ASYNC";
+            this.SlewAsync.UseVisualStyleBackColor = true;
+            this.SlewAsync.Click += new System.EventHandler(this.SlewAsync_Click);
             // 
             // AzimuthInput
             // 
@@ -319,6 +334,7 @@
         private System.Windows.Forms.Button CheckAzm;
         private System.Windows.Forms.TextBox AzimuthBox;
         private System.Windows.Forms.Button CheckAlt;
+        private System.Windows.Forms.Button SlewAsync;
     }
 }
 
