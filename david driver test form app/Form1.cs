@@ -63,6 +63,7 @@ namespace ASCOM.Sepikascope001
             SetAltAzm.Enabled = IsConnected;
             SlewAsync.Enabled = IsConnected;
             label1.Text = "Increment : " + trackBar1.Value.ToString();
+            label2.Text = "Speed : " + trackBar2.Value.ToString();
         }
 
         private bool IsConnected
@@ -237,6 +238,11 @@ namespace ASCOM.Sepikascope001
             slewScale = trackBar1.Value * 1;
             driver.SlewToAltAzAsync(((driver.Azimuth + slewScale) % 360),
                 ((driver.Altitude - slewScale + 360) % 360));
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            label2.Text = "Speed : " + trackBar2.Value.ToString();
         }
     }
 }

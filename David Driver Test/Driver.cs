@@ -851,13 +851,42 @@ namespace ASCOM.Sepikascope001
 
         public void MoveAxis(TelescopeAxes Axis, double Rate)
         {
+            //Rate is a double, representing degrees/second rate of motion about that axis
             if (CanMoveAxis(Axis))
             {
 
-                tl.LogMessage("MoveAxis", "Not implemented");
-                throw new ASCOM.MethodNotImplementedException("MoveAxis");
-                //tl.LogMessage("MoveAxis", "Move - " + Axis.ToString() + ", " + Rate.ToString());
+                //tl.LogMessage("MoveAxis", "Not implemented");
+                //throw new ASCOM.MethodNotImplementedException("MoveAxis");
+                tl.LogMessage("MoveAxis", "Move - " + Axis.ToString() + ", " + Rate.ToString());
 
+                switch (Axis)
+                {
+                        //The Altitude above the local horizon of the telescope's
+                        //current position (degrees, positive up)
+                    case TelescopeAxes.axisPrimary:
+                        //CommandString( )
+                        
+
+
+
+                        break;
+
+
+                        //The azimuth at the local horizon of the telescope's current
+                        //position (degrees, North-referenced, positive East/clockwise). 
+                    case TelescopeAxes.axisSecondary:
+                        //CommandString( )
+
+
+
+
+                        break;
+
+                    case TelescopeAxes.axisTertiary:
+                        break;
+
+                    default: throw new InvalidValueException("CanMoveAxis", Axis.ToString(), "0 to 2");
+                }
             }
             else
             {
