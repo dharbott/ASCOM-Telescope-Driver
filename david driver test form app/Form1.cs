@@ -247,9 +247,10 @@ namespace ASCOM.Sepikascope001
 
         private void MVXS_Right_Click(object sender, EventArgs e)
         {
+            //driver.MoveAxis(DeviceInterface.TelescopeAxes.axisPrimary, trackBar2.Value);
 
-            /***
-            byte[] myRate =  BitConverter.GetBytes(Convert.ToInt16(trackBar2.Value));
+            
+            byte[] myRate =  BitConverter.GetBytes(Convert.ToInt16(trackBar2.Value*60.0));
 
             string stringOutgoing = "4";
             string stringIncoming = "";
@@ -272,7 +273,7 @@ namespace ASCOM.Sepikascope001
 
             textBox1.Text += stringIncoming;
             textBox1.Text += "\n";
-            ***/
+            
             //driver.SlewToAltAzAsync(((driver.Azimuth + slewScale) % 360), driver.Altitude);
         }
 
