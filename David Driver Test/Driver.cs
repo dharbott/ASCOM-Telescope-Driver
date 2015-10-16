@@ -851,6 +851,12 @@ namespace ASCOM.Sepikascope001
 
         public void MoveAxis(TelescopeAxes Axis, double Rate)
         {
+            //convert Rate from degrees/second to arcminute/second
+            byte[] myRate = doubleToShortBytes(Rate);
+
+            string stringOutgoing = "4";
+            string stringIncoming = "";
+
             //Rate is a double, representing degrees/second rate of motion about that axis
             if (CanMoveAxis(Axis))
             {
@@ -861,27 +867,46 @@ namespace ASCOM.Sepikascope001
 
                 switch (Axis)
                 {
-                        //The Altitude above the local horizon of the telescope's
-                        //current position (degrees, positive up)
+                    //The azimuth at the local horizon of the telescope's current
+                    //position (degrees, North-referenced, positive East/clockwise). 
                     case TelescopeAxes.axisPrimary:
-                        //CommandString( )
+
+                        //check rate if it's not out of range??
+
+                        //we're using "1" to indicate Azimuth Axis
+                        stringOutgoing += "1";
                         
+                        for (int i = 0; i < myRate.Length; i = i + 2)
+                        {
+                            stringOutgoing += BitConverter.ToChar(myRate, i);
+                        }
 
+                        stringOutgoing += "~";
 
+                        stringIncoming = CommandString(stringOutgoing, true);
+
+                        if (stringIncoming.Equals("Move Axis Started"))
+                        {
+
+                        }
+                        else
+                        {
+                            throw new ASCOM.DriverException("MoveAxis - Fail;");
+                        }
 
                         break;
 
 
-                        //The azimuth at the local horizon of the telescope's current
-                        //position (degrees, North-referenced, positive East/clockwise). 
+                    //The Altitude above the local horizon of the telescope's
+                    //current position (degrees, positive up)
                     case TelescopeAxes.axisSecondary:
-                        //CommandString( )
 
 
 
 
                         break;
-
+                    
+                    //does not exist??
                     case TelescopeAxes.axisTertiary:
                         break;
 

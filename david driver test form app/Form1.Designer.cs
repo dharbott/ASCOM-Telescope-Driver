@@ -32,6 +32,18 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.MVXS_DownRight = new System.Windows.Forms.Button();
+            this.MVXS_Down = new System.Windows.Forms.Button();
+            this.MVXS_Right = new System.Windows.Forms.Button();
+            this.MVXS_Halt = new System.Windows.Forms.Button();
+            this.MVXS_DownLeft = new System.Windows.Forms.Button();
+            this.MVXS_UpRight = new System.Windows.Forms.Button();
+            this.MVXS_Left = new System.Windows.Forms.Button();
+            this.MVXS_Up = new System.Windows.Forms.Button();
+            this.MVXS_UpLeft = new System.Windows.Forms.Button();
             this.keyControl = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
@@ -61,27 +73,15 @@
             this.buttonConnect = new System.Windows.Forms.Button();
             this.labelDriverId = new System.Windows.Forms.Label();
             this.buttonChoose = new System.Windows.Forms.Button();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.trackBar2 = new System.Windows.Forms.TrackBar();
-            this.button11 = new System.Windows.Forms.Button();
-            this.button12 = new System.Windows.Forms.Button();
-            this.button13 = new System.Windows.Forms.Button();
-            this.button14 = new System.Windows.Forms.Button();
-            this.button15 = new System.Windows.Forms.Button();
-            this.button16 = new System.Windows.Forms.Button();
-            this.button17 = new System.Windows.Forms.Button();
-            this.button18 = new System.Windows.Forms.Button();
-            this.button19 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             this.keyControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -124,6 +124,160 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Alt/Azm Manual Control";
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.label2);
+            this.groupBox6.Controls.Add(this.trackBar2);
+            this.groupBox6.Controls.Add(this.MVXS_DownRight);
+            this.groupBox6.Controls.Add(this.MVXS_Down);
+            this.groupBox6.Controls.Add(this.MVXS_Right);
+            this.groupBox6.Controls.Add(this.MVXS_Halt);
+            this.groupBox6.Controls.Add(this.MVXS_DownLeft);
+            this.groupBox6.Controls.Add(this.MVXS_UpRight);
+            this.groupBox6.Controls.Add(this.MVXS_Left);
+            this.groupBox6.Controls.Add(this.MVXS_Up);
+            this.groupBox6.Controls.Add(this.MVXS_UpLeft);
+            this.groupBox6.Location = new System.Drawing.Point(306, 102);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(301, 180);
+            this.groupBox6.TabIndex = 23;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Move Axis Rate";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(147, 34);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(51, 13);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "Deg/Sec";
+            // 
+            // trackBar2
+            // 
+            this.trackBar2.LargeChange = 8;
+            this.trackBar2.Location = new System.Drawing.Point(150, 50);
+            this.trackBar2.Maximum = 32;
+            this.trackBar2.Name = "trackBar2";
+            this.trackBar2.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar2.Size = new System.Drawing.Size(42, 124);
+            this.trackBar2.SmallChange = 2;
+            this.trackBar2.TabIndex = 21;
+            this.trackBar2.TickFrequency = 2;
+            this.trackBar2.Value = 1;
+            this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
+            // 
+            // MVXS_DownRight
+            // 
+            this.MVXS_DownRight.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MVXS_DownRight.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.MVXS_DownRight.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.MVXS_DownRight.Location = new System.Drawing.Point(99, 97);
+            this.MVXS_DownRight.Name = "MVXS_DownRight";
+            this.MVXS_DownRight.Size = new System.Drawing.Size(24, 24);
+            this.MVXS_DownRight.TabIndex = 0;
+            this.MVXS_DownRight.Text = "y";
+            this.MVXS_DownRight.UseVisualStyleBackColor = true;
+            // 
+            // MVXS_Down
+            // 
+            this.MVXS_Down.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MVXS_Down.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.MVXS_Down.ForeColor = System.Drawing.Color.Teal;
+            this.MVXS_Down.Location = new System.Drawing.Point(69, 97);
+            this.MVXS_Down.Name = "MVXS_Down";
+            this.MVXS_Down.Size = new System.Drawing.Size(24, 24);
+            this.MVXS_Down.TabIndex = 0;
+            this.MVXS_Down.Text = "q";
+            this.MVXS_Down.UseVisualStyleBackColor = true;
+            // 
+            // MVXS_Right
+            // 
+            this.MVXS_Right.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MVXS_Right.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.MVXS_Right.ForeColor = System.Drawing.Color.Teal;
+            this.MVXS_Right.Location = new System.Drawing.Point(99, 67);
+            this.MVXS_Right.Name = "MVXS_Right";
+            this.MVXS_Right.Size = new System.Drawing.Size(24, 24);
+            this.MVXS_Right.TabIndex = 0;
+            this.MVXS_Right.Text = "u";
+            this.MVXS_Right.UseVisualStyleBackColor = true;
+            this.MVXS_Right.Click += new System.EventHandler(this.MVXS_Right_Click);
+            // 
+            // MVXS_Halt
+            // 
+            this.MVXS_Halt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MVXS_Halt.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.MVXS_Halt.ForeColor = System.Drawing.Color.Green;
+            this.MVXS_Halt.Location = new System.Drawing.Point(69, 67);
+            this.MVXS_Halt.Name = "MVXS_Halt";
+            this.MVXS_Halt.Size = new System.Drawing.Size(24, 24);
+            this.MVXS_Halt.TabIndex = 0;
+            this.MVXS_Halt.Text = "R";
+            this.MVXS_Halt.UseVisualStyleBackColor = true;
+            this.MVXS_Halt.Click += new System.EventHandler(this.MVXS_Halt_Click);
+            // 
+            // MVXS_DownLeft
+            // 
+            this.MVXS_DownLeft.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MVXS_DownLeft.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.MVXS_DownLeft.ForeColor = System.Drawing.Color.Green;
+            this.MVXS_DownLeft.Location = new System.Drawing.Point(39, 97);
+            this.MVXS_DownLeft.Name = "MVXS_DownLeft";
+            this.MVXS_DownLeft.Size = new System.Drawing.Size(24, 24);
+            this.MVXS_DownLeft.TabIndex = 0;
+            this.MVXS_DownLeft.Text = "x";
+            this.MVXS_DownLeft.UseVisualStyleBackColor = true;
+            // 
+            // MVXS_UpRight
+            // 
+            this.MVXS_UpRight.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MVXS_UpRight.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.MVXS_UpRight.ForeColor = System.Drawing.Color.Green;
+            this.MVXS_UpRight.Location = new System.Drawing.Point(99, 37);
+            this.MVXS_UpRight.Name = "MVXS_UpRight";
+            this.MVXS_UpRight.Size = new System.Drawing.Size(24, 24);
+            this.MVXS_UpRight.TabIndex = 0;
+            this.MVXS_UpRight.Text = "{";
+            this.MVXS_UpRight.UseVisualStyleBackColor = true;
+            // 
+            // MVXS_Left
+            // 
+            this.MVXS_Left.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MVXS_Left.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.MVXS_Left.ForeColor = System.Drawing.Color.Olive;
+            this.MVXS_Left.Location = new System.Drawing.Point(39, 67);
+            this.MVXS_Left.Name = "MVXS_Left";
+            this.MVXS_Left.Size = new System.Drawing.Size(24, 24);
+            this.MVXS_Left.TabIndex = 0;
+            this.MVXS_Left.Text = "t";
+            this.MVXS_Left.UseVisualStyleBackColor = true;
+            this.MVXS_Left.Click += new System.EventHandler(this.MVXS_Left_Click);
+            // 
+            // MVXS_Up
+            // 
+            this.MVXS_Up.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MVXS_Up.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.MVXS_Up.ForeColor = System.Drawing.Color.Olive;
+            this.MVXS_Up.Location = new System.Drawing.Point(69, 37);
+            this.MVXS_Up.Name = "MVXS_Up";
+            this.MVXS_Up.Size = new System.Drawing.Size(24, 24);
+            this.MVXS_Up.TabIndex = 0;
+            this.MVXS_Up.Text = "p";
+            this.MVXS_Up.UseVisualStyleBackColor = true;
+            // 
+            // MVXS_UpLeft
+            // 
+            this.MVXS_UpLeft.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MVXS_UpLeft.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.MVXS_UpLeft.ForeColor = System.Drawing.Color.Maroon;
+            this.MVXS_UpLeft.Location = new System.Drawing.Point(39, 37);
+            this.MVXS_UpLeft.Name = "MVXS_UpLeft";
+            this.MVXS_UpLeft.Size = new System.Drawing.Size(24, 24);
+            this.MVXS_UpLeft.TabIndex = 0;
+            this.MVXS_UpLeft.Text = "z";
+            this.MVXS_UpLeft.UseVisualStyleBackColor = true;
+            // 
             // keyControl
             // 
             this.keyControl.Controls.Add(this.label1);
@@ -142,16 +296,16 @@
             this.keyControl.Size = new System.Drawing.Size(301, 180);
             this.keyControl.TabIndex = 20;
             this.keyControl.TabStop = false;
-            this.keyControl.Text = "Keyboard Control";
+            this.keyControl.Text = "Move Axis Degrees";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(147, 34);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 22;
-            this.label1.Text = "label1";
+            this.label1.Text = "Degrees";
             // 
             // trackBar1
             // 
@@ -476,155 +630,6 @@
             this.buttonChoose.Text = "Choose";
             this.buttonChoose.UseVisualStyleBackColor = true;
             // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.label2);
-            this.groupBox6.Controls.Add(this.trackBar2);
-            this.groupBox6.Controls.Add(this.button11);
-            this.groupBox6.Controls.Add(this.button12);
-            this.groupBox6.Controls.Add(this.button13);
-            this.groupBox6.Controls.Add(this.button14);
-            this.groupBox6.Controls.Add(this.button15);
-            this.groupBox6.Controls.Add(this.button16);
-            this.groupBox6.Controls.Add(this.button17);
-            this.groupBox6.Controls.Add(this.button18);
-            this.groupBox6.Controls.Add(this.button19);
-            this.groupBox6.Location = new System.Drawing.Point(306, 102);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(301, 180);
-            this.groupBox6.TabIndex = 23;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Keyboard Control";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(147, 34);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "label2";
-            // 
-            // trackBar2
-            // 
-            this.trackBar2.Location = new System.Drawing.Point(150, 50);
-            this.trackBar2.Maximum = 20;
-            this.trackBar2.Minimum = 1;
-            this.trackBar2.Name = "trackBar2";
-            this.trackBar2.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar2.Size = new System.Drawing.Size(42, 124);
-            this.trackBar2.TabIndex = 21;
-            this.trackBar2.Value = 1;
-            this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
-            // 
-            // button11
-            // 
-            this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button11.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.button11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.button11.Location = new System.Drawing.Point(99, 97);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(24, 24);
-            this.button11.TabIndex = 0;
-            this.button11.Text = "y";
-            this.button11.UseVisualStyleBackColor = true;
-            // 
-            // button12
-            // 
-            this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button12.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.button12.ForeColor = System.Drawing.Color.Teal;
-            this.button12.Location = new System.Drawing.Point(69, 97);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(24, 24);
-            this.button12.TabIndex = 0;
-            this.button12.Text = "q";
-            this.button12.UseVisualStyleBackColor = true;
-            // 
-            // button13
-            // 
-            this.button13.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button13.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.button13.ForeColor = System.Drawing.Color.Teal;
-            this.button13.Location = new System.Drawing.Point(99, 67);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(24, 24);
-            this.button13.TabIndex = 0;
-            this.button13.Text = "u";
-            this.button13.UseVisualStyleBackColor = true;
-            // 
-            // button14
-            // 
-            this.button14.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button14.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.button14.ForeColor = System.Drawing.Color.Green;
-            this.button14.Location = new System.Drawing.Point(69, 67);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(24, 24);
-            this.button14.TabIndex = 0;
-            this.button14.Text = "R";
-            this.button14.UseVisualStyleBackColor = true;
-            // 
-            // button15
-            // 
-            this.button15.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button15.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.button15.ForeColor = System.Drawing.Color.Green;
-            this.button15.Location = new System.Drawing.Point(39, 97);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(24, 24);
-            this.button15.TabIndex = 0;
-            this.button15.Text = "x";
-            this.button15.UseVisualStyleBackColor = true;
-            // 
-            // button16
-            // 
-            this.button16.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button16.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.button16.ForeColor = System.Drawing.Color.Green;
-            this.button16.Location = new System.Drawing.Point(99, 37);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(24, 24);
-            this.button16.TabIndex = 0;
-            this.button16.Text = "{";
-            this.button16.UseVisualStyleBackColor = true;
-            // 
-            // button17
-            // 
-            this.button17.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button17.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.button17.ForeColor = System.Drawing.Color.Olive;
-            this.button17.Location = new System.Drawing.Point(39, 67);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(24, 24);
-            this.button17.TabIndex = 0;
-            this.button17.Text = "t";
-            this.button17.UseVisualStyleBackColor = true;
-            // 
-            // button18
-            // 
-            this.button18.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button18.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.button18.ForeColor = System.Drawing.Color.Olive;
-            this.button18.Location = new System.Drawing.Point(69, 37);
-            this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(24, 24);
-            this.button18.TabIndex = 0;
-            this.button18.Text = "p";
-            this.button18.UseVisualStyleBackColor = true;
-            // 
-            // button19
-            // 
-            this.button19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button19.Font = new System.Drawing.Font("Wingdings 3", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.button19.ForeColor = System.Drawing.Color.Maroon;
-            this.button19.Location = new System.Drawing.Point(39, 37);
-            this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(24, 24);
-            this.button19.TabIndex = 0;
-            this.button19.Text = "z";
-            this.button19.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -638,6 +643,9 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
             this.keyControl.ResumeLayout(false);
             this.keyControl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
@@ -648,9 +656,6 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -693,15 +698,15 @@
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TrackBar trackBar2;
-        private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.Button button15;
-        private System.Windows.Forms.Button button16;
-        private System.Windows.Forms.Button button17;
-        private System.Windows.Forms.Button button18;
-        private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.Button MVXS_DownRight;
+        private System.Windows.Forms.Button MVXS_Down;
+        private System.Windows.Forms.Button MVXS_Right;
+        private System.Windows.Forms.Button MVXS_Halt;
+        private System.Windows.Forms.Button MVXS_DownLeft;
+        private System.Windows.Forms.Button MVXS_UpRight;
+        private System.Windows.Forms.Button MVXS_Left;
+        private System.Windows.Forms.Button MVXS_Up;
+        private System.Windows.Forms.Button MVXS_UpLeft;
     }
 }
 

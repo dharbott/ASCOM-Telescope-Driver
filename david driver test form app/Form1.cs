@@ -244,5 +244,48 @@ namespace ASCOM.Sepikascope001
         {
             label2.Text = "Speed : " + trackBar2.Value.ToString();
         }
+
+        private void MVXS_Right_Click(object sender, EventArgs e)
+        {
+
+            /***
+            byte[] myRate =  BitConverter.GetBytes(Convert.ToInt16(trackBar2.Value));
+
+            string stringOutgoing = "4";
+            string stringIncoming = "";
+
+            //case TelescopeAxes.axisPrimary:
+
+            //check rate if it's not out of range??
+
+            //we're using "1" to indicate Azimuth Axis
+            stringOutgoing += "1";
+                        
+            for (int i = 0; i < myRate.Length; i = i + 2)
+            {
+                 stringOutgoing += BitConverter.ToChar(myRate, i);
+            }
+
+            stringOutgoing += "~";
+
+            stringIncoming = driver.CommandString(stringOutgoing, true);
+
+            textBox1.Text += stringIncoming;
+            textBox1.Text += "\n";
+            ***/
+            //driver.SlewToAltAzAsync(((driver.Azimuth + slewScale) % 360), driver.Altitude);
+        }
+
+        private void MVXS_Halt_Click(object sender, EventArgs e)
+        {
+            driver.AbortSlew();
+            AzimuthBox.Text = driver.Azimuth.ToString();
+            AltitudeBox.Text = driver.Altitude.ToString();
+        }
+
+        private void MVXS_Left_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
