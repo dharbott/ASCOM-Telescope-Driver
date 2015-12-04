@@ -73,6 +73,7 @@
             this.buttonConnect = new System.Windows.Forms.Button();
             this.labelDriverId = new System.Windows.Forms.Label();
             this.buttonChoose = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
@@ -280,6 +281,7 @@
             // 
             // keyControl
             // 
+            this.keyControl.Controls.Add(this.button11);
             this.keyControl.Controls.Add(this.label1);
             this.keyControl.Controls.Add(this.trackBar1);
             this.keyControl.Controls.Add(this.button10);
@@ -630,6 +632,16 @@
             this.buttonChoose.Text = "Choose";
             this.buttonChoose.UseVisualStyleBackColor = true;
             // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(218, 19);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(75, 23);
+            this.button11.TabIndex = 23;
+            this.button11.Text = "button11";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -707,6 +719,7 @@
         private System.Windows.Forms.Button MVXS_Left;
         private System.Windows.Forms.Button MVXS_Up;
         private System.Windows.Forms.Button MVXS_UpLeft;
+        private System.Windows.Forms.Button button11;
     }
 }
 

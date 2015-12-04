@@ -6,13 +6,14 @@
 //
 // ASCOM Telescope driver for Sepikascope001
 //
-// Description:	Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam 
-//				nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam 
-//				erat, sed diam voluptua. At vero eos et accusam et justo duo 
-//				dolores et ea rebum. Stet clita kasd gubergren, no sea takimata 
-//				sanctus est Lorem ipsum dolor sit amet.
+// Description:	This is my telescope driver. The hardware it communicates with is
+//              an Arduino, which relays motor actions to a pair of motor drivers,
+//              and polls the 12-bit magnetic rotary encoders for angular position.
+//              The system runs off of 12v sealed lead acid batteries, and is moved
+//              by a pair of small 12v 2.5Watt motors. The worm and worm gears are
+//              3D printed, and are enclosed/framed with lasercut plates.
 //
-// Implements:	ASCOM Telescope interface version: <To be completed by driver developer>
+// Implements:	ASCOM Telescope interface version: <1.0.1>
 // Author:		David Harbottle <dharbott@gmail.com>
 //
 // Edit Log:
@@ -20,6 +21,7 @@
 // Date			Who	Vers	Description
 // -----------	---	-----	-------------------------------------------------------
 // 14-May-2015	DH	1.0.0	Working SlewToAltAz Function
+// 01-Dec-2015	DH	1.0.1	Working limit switches, encoder functions, 
 // --------------------------------------------------------------------------------
 //
 
@@ -78,6 +80,7 @@ namespace ASCOM.Sepikascope001
         internal static string traceStateProfileName = "Trace Level";
         internal static string traceStateDefault = "false";
 
+
         internal static string comPort; // Variables to hold the currrent device configuration
         internal static bool traceState;
 
@@ -109,6 +112,8 @@ namespace ASCOM.Sepikascope001
         public ArrayList actionsArrayList;
 
         // tested and it works
+
+        /***
         private enum DCommandList
         {
             DAltitudeLimit,
@@ -121,7 +126,9 @@ namespace ASCOM.Sepikascope001
             DSyncToAltAz
             //DSupportedActions
         };
+        ***/
 
+        //mutual exclusion - Only one command should occur at any one moment?
         private bool commandBusy = false;
 
         
@@ -191,6 +198,9 @@ namespace ASCOM.Sepikascope001
 
             actionsArrayList = new ArrayList();
 
+//NOTE : DOUBLE CHECK - EACH ONE
+//       UPDATE LIST!
+
             actionsArrayList.Add("CanMoveAxis"); //can move Alt, Azm
             //actionsArrayList.Add("MoveAxis"); //not sure how to implement
             actionsArrayList.Add("SlewToAltAz"); //functional
@@ -199,7 +209,7 @@ namespace ASCOM.Sepikascope001
             actionsArrayList.Add("Altitude"); //functional
             actionsArrayList.Add("Azimuth");  //functional
             actionsArrayList.Add("SyncToAltAz"); //functional
-            actionsArrayList.Add("SupportedActions");
+            actionsArrayList.Add("SupportedActions"); //redundant
         }
 
 
@@ -337,8 +347,7 @@ namespace ASCOM.Sepikascope001
 
             //throw new ASCOM.MethodNotImplementedException("CommandString");
         }
-
-
+        
         
 
         // WARNING: OBSOLETE!!!
@@ -671,64 +680,74 @@ namespace ASCOM.Sepikascope001
             }
         }
 
+        //TODO - To be reviewed later....
+        //True if this telescope is capable of programmed slewing (synchronous or 
+        //asynchronous) to equatorial coordinates 
         public bool CanSlew
         {
             get
             {
-                //tl.LogMessage("CanSlew", "Get - " + false.ToString());
-                //return false;
-                tl.LogMessage("CanSlew", "Get - " + true.ToString());
-                return true;
+                tl.LogMessage("CanSlew", "Get - " + false.ToString());
+                return false;
             }
         }
 
+        //Works - verified
+        //True if this telescope is capable of programmed slewing (synchronous or
+        //asynchronous) to local horizontal coordinates 
         public bool CanSlewAltAz
         {
             get
             {
-                //tl.LogMessage("CanSlewAltAz", "Get - " + false.ToString());
-                //return false;
                 tl.LogMessage("CanSlewAltAz", "Get - " + true.ToString());
                 return true;
             }
         }
 
+        //Works - verified
+        //True if this telescope is capable of programmed asynchronous slewing to 
+        //local horizontal coordinates 
         public bool CanSlewAltAzAsync
         {
             get
             {
-                //tl.LogMessage("CanSlewAltAzAsync", "Get - " + false.ToString());
-                //return false;
                 tl.LogMessage("CanSlewAltAzAsync", "Get - " + true.ToString());
                 return true;
             }
         }
 
+        //TODO - To be reviewed later....
+        //True if this telescope is capable of programmed asynchronous slewing to 
+        //equatorial coordinates. 
         public bool CanSlewAsync
         {
             get
             {
-                //tl.LogMessage("CanSlewAsync", "Get - " + false.ToString());
-                //return false;
-                tl.LogMessage("CanSlewAsync", "Get - " + true.ToString());
-                return true;
+                tl.LogMessage("CanSlewAsync", "Get - " + false.ToString());
+                return false;
             }
         }
 
+
+        //True if this telescope is capable of programmed synching to equatorial
+        //coordinates.
         public bool CanSync
         {
             get
             {
                 tl.LogMessage("CanSync", "Get - " + false.ToString());
-                return true;
+                return false;
             }
         }
 
+
+        //True if this telescope is capable of programmed synching to local 
+        //horizontal coordinates
         public bool CanSyncAltAz
         {
             get
             {
-                tl.LogMessage("CanSyncAltAz", "Get - " + false.ToString());
+                tl.LogMessage("CanSyncAltAz", "Get - " + true.ToString());
                 return true;
             }
         }
@@ -1025,29 +1044,41 @@ namespace ASCOM.Sepikascope001
 
         public double SiteLatitude
         {
+            //In the future, the unit might use a GPS unit, and so the driver will have
+            //to send a command to the Arduino to poll the GPS unit
+
+            //our current GPS location is 34.144005, -118.120434
             get
             {
-                tl.LogMessage("SiteLatitude Get", "Not implemented");
-                throw new ASCOM.PropertyNotImplementedException("SiteLatitude", false);
+                //CODE to read GPS location
+                //NO GPS, so for now it's hard-coded
+                tl.LogMessage("SiteLatitude Get", "Implemented");
+                return 34.144005;
             }
             set
             {
-                tl.LogMessage("SiteLatitude Set", "Not implemented");
-                throw new ASCOM.PropertyNotImplementedException("SiteLatitude", true);
+                //manually input position latitude
+                tl.LogMessage("SiteLatitude Set", "Implemented");                
             }
         }
 
         public double SiteLongitude
         {
+            //In the future, the unit might use a GPS unit, and so the driver will have
+            //to send a command to the Arduino to poll the GPS unit
+
+            //our current GPS location is 34.144005, -118.120434
             get
             {
-                tl.LogMessage("SiteLongitude Get", "Not implemented");
-                throw new ASCOM.PropertyNotImplementedException("SiteLongitude", false);
+                //CODE to read GPS location
+                //NO GPS, so for now it's hard-coded
+                tl.LogMessage("SiteLongitude Get", "Implemented");
+                return -118.120434;
             }
             set
             {
-                tl.LogMessage("SiteLongitude Set", "Not implemented");
-                throw new ASCOM.PropertyNotImplementedException("SiteLongitude", true);
+                tl.LogMessage("SiteLongitude Set", "Implemented");
+                //manually input position latitude
             }
         }
 
@@ -1257,11 +1288,16 @@ namespace ASCOM.Sepikascope001
             }
         }
 
+        //The state of the telescope's sidereal tracking drive. 
+        //Changing the value of this property will turn the sidereal drive on and off.
+        //However, some telescopes may not support changing the value of this property
+        //and thus may not support turning tracking on and off. 
+        //Tracking : Following objects in the night sky, as the earth turns
         public bool Tracking
         {
             get
             {
-                bool tracking = true;
+                bool tracking = false;
                 tl.LogMessage("Tracking", "Get - " + tracking.ToString());
                 return tracking;
             }

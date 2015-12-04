@@ -288,5 +288,17 @@ namespace ASCOM.Sepikascope001
         {
 
         }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            string stringOutgoing = "6";
+            string stringIncoming = "";
+
+            stringOutgoing += "~";
+
+            stringIncoming = driver.CommandString(stringOutgoing, true);
+
+            textBox1.Text += stringIncoming + "____";
+        }
     }
 }
