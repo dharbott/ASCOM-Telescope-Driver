@@ -176,10 +176,6 @@ namespace ASCOM.Sepikascope001
         /// <summary>
         /// Initializes a new instance of the <see cref="Sepikascope001"/> class.
         /// Must be public for COM registration.
-        /// 
-        /// TODO :
-        /// INITIALIZE ALL RELEVANT FIELDS HERE!!!
-        /// 
         /// </summary>
         public Telescope()
         {
@@ -533,8 +529,9 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                tl.LogMessage("ApertureArea Get", "Not implemented");
-                throw new ASCOM.PropertyNotImplementedException("ApertureArea", false);
+                tl.LogMessage("ApertureArea Get", "Implemented");
+                //throw new ASCOM.PropertyNotImplementedException("ApertureArea", false);
+                return (((ApertureDiameter * ApertureDiameter)/4.0) * Math.PI);
             }
         }
 
@@ -542,8 +539,12 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                tl.LogMessage("ApertureDiameter Get", "Not implemented");
-                throw new ASCOM.PropertyNotImplementedException("ApertureDiameter", false);
+                tl.LogMessage("ApertureDiameter Get", "Implemented");
+                //throw new ASCOM.PropertyNotImplementedException("ApertureDiameter", false);
+                //SkyQuest XT6 Dobsonian Reflector Telescope
+                //Parabolic Primary Optics
+                //Diameter 150mm, Focal Length 1200mm, focal ratio f/8
+                return 0.150;
             }
         }
 
@@ -687,8 +688,8 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                tl.LogMessage("CanSlew", "Get - " + false.ToString());
-                return false;
+                //tl.LogMessage("CanSlew", "Get - " + true.ToString());
+                return true;
             }
         }
 
@@ -699,7 +700,7 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                tl.LogMessage("CanSlewAltAz", "Get - " + true.ToString());
+                //tl.LogMessage("CanSlewAltAz", "Get - " + true.ToString());
                 return true;
             }
         }
@@ -711,7 +712,7 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                tl.LogMessage("CanSlewAltAzAsync", "Get - " + true.ToString());
+                //tl.LogMessage("CanSlewAltAzAsync", "Get - " + true.ToString());
                 return true;
             }
         }
@@ -723,8 +724,8 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                tl.LogMessage("CanSlewAsync", "Get - " + false.ToString());
-                return false;
+                //tl.LogMessage("CanSlewAsync", "Get - " + true.ToString());
+                return true;
             }
         }
 
@@ -735,8 +736,8 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                tl.LogMessage("CanSync", "Get - " + false.ToString());
-                return false;
+                //tl.LogMessage("CanSync", "Get - " + true.ToString());
+                return true;
             }
         }
 
@@ -747,7 +748,7 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                tl.LogMessage("CanSyncAltAz", "Get - " + true.ToString());
+                //tl.LogMessage("CanSyncAltAz", "Get - " + true.ToString());
                 return true;
             }
         }
@@ -1173,6 +1174,9 @@ namespace ASCOM.Sepikascope001
                 throw new ASCOM.DriverException("SlewToAltAzAsync - Fail;");
         }
 
+
+        //May have to implement RA,DEC coordinate slewing
+        //can be done, using the system's clock?
         public void SlewToCoordinates(double RightAscension, double Declination)
         {
             tl.LogMessage("SlewToCoordinates", "Not implemented");
