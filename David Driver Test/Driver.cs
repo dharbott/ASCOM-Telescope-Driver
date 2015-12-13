@@ -73,13 +73,21 @@ namespace ASCOM.Sepikascope001
         /// <summary>
         /// Driver description that displays in the ASCOM Chooser.
         /// </summary>
-        private static string driverDescription = "ASCOM Telescope Driver for Sepikascope001.";
+        private static string driverDescription = "ASCOM Telescope Driver for Sepikascope001 V0.1";
+        //changes ARE reflected in "Get Profile" inside the ASCOM Diagnostics tool, when connecting to this scope
+
 
         internal static string comPortProfileName = "COM Port"; // Constants used for Profile persistence
-        internal static string comPortDefault = "COM1";
+        internal static string comPortDefault = "COM14";
         internal static string traceStateProfileName = "Trace Level";
         internal static string traceStateDefault = "false";
+        /**
+        internal static string latutudeProfileName = "Latitude";
+        internal static string latitudeDefault = "34.144005";
 
+        internal static string longitudeProfileName = "Longitude";
+        internal static string longitudeDefault = "-118.120434";
+        **/
 
         internal static string comPort; // Variables to hold the currrent device configuration
         internal static bool traceState;
@@ -111,22 +119,6 @@ namespace ASCOM.Sepikascope001
 
         public ArrayList actionsArrayList;
 
-        // tested and it works
-
-        /***
-        private enum DCommandList
-        {
-            DAltitudeLimit,
-            DMoveAxis,
-            DSlewToAltAz,
-            DSlewing,
-            DAbortSlew,
-            DAltitude,
-            DAzimuth,
-            DSyncToAltAz
-            //DSupportedActions
-        };
-        ***/
 
         //mutual exclusion - Only one command should occur at any one moment?
         private bool commandBusy = false;
@@ -174,7 +166,7 @@ namespace ASCOM.Sepikascope001
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Sepikascope001"/> class.
+        /// Initializes a new instance of the <see cref="ASCOM.Sepikascope001.Telescope"/> class.
         /// Must be public for COM registration.
         /// </summary>
         public Telescope()
@@ -409,7 +401,7 @@ namespace ASCOM.Sepikascope001
                     tl.LogMessage("Connected Set", "Connecting to port " + comPort);
                     // TODO connect to the device
                     objSerial = new ASCOM.Utilities.Serial();
-                    objSerial.Port = 14;
+                    objSerial.PortName = comPort;
                     objSerial.Speed = SerialSpeed.ps19200;
                     connectedState = true;
                     objSerial.Connected = true;
@@ -422,6 +414,7 @@ namespace ASCOM.Sepikascope001
                     connectedState = false;
                     tl.LogMessage("Connected Set", "Disconnecting from port " + comPort);
                     // TODO disconnect from the device
+                    //objSerial.ClearBuffers();
                     objSerial.Connected = false;
                 }
             }
@@ -688,7 +681,7 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                //tl.LogMessage("CanSlew", "Get - " + true.ToString());
+                tl.LogMessage("CanSlew", "Get - " + true.ToString());
                 return true;
             }
         }
@@ -700,7 +693,7 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                //tl.LogMessage("CanSlewAltAz", "Get - " + true.ToString());
+                tl.LogMessage("CanSlewAltAz", "Get - " + true.ToString());
                 return true;
             }
         }
@@ -712,7 +705,7 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                //tl.LogMessage("CanSlewAltAzAsync", "Get - " + true.ToString());
+                tl.LogMessage("CanSlewAltAzAsync", "Get - " + true.ToString());
                 return true;
             }
         }
@@ -724,7 +717,7 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                //tl.LogMessage("CanSlewAsync", "Get - " + true.ToString());
+                tl.LogMessage("CanSlewAsync", "Get - " + true.ToString());
                 return true;
             }
         }
@@ -736,7 +729,7 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                //tl.LogMessage("CanSync", "Get - " + true.ToString());
+                tl.LogMessage("CanSync", "Get - " + true.ToString());
                 return true;
             }
         }
@@ -748,7 +741,7 @@ namespace ASCOM.Sepikascope001
         {
             get
             {
-                //tl.LogMessage("CanSyncAltAz", "Get - " + true.ToString());
+                tl.LogMessage("CanSyncAltAz", "Get - " + true.ToString());
                 return true;
             }
         }
@@ -1475,6 +1468,7 @@ namespace ASCOM.Sepikascope001
                 driverProfile.DeviceType = "Telescope";
                 traceState = Convert.ToBoolean(driverProfile.GetValue(driverID, traceStateProfileName, string.Empty, traceStateDefault));
                 comPort = driverProfile.GetValue(driverID, comPortProfileName, string.Empty, comPortDefault);
+                //driverProfile.GetValue(driverID, "abd", string.Empty, "bdds");
             }
         }
 
@@ -1488,6 +1482,7 @@ namespace ASCOM.Sepikascope001
                 driverProfile.DeviceType = "Telescope";
                 driverProfile.WriteValue(driverID, traceStateProfileName, traceState.ToString());
                 driverProfile.WriteValue(driverID, comPortProfileName, comPort.ToString());
+                driverProfile.WriteValue(driverID, "abd", string.Empty, "bdds");
             }
         }
 
